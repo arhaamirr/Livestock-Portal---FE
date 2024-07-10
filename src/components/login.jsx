@@ -74,7 +74,7 @@ const LoginPage = () => {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" style={{backgroundColor: 'green' ,marginTop: "25px", marginLeft: "120px"}}>
             Login
           </button>
         </form>
