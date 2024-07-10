@@ -15,7 +15,7 @@ const HomePage = () => {
 
   return (
     <div className="landing-page">
-      <Carousel>
+      <Carousel style={{marginTop: "15px"}}>
         <Carousel.Item>
           <img
             className="d-block w-100"
@@ -57,7 +57,7 @@ const HomePage = () => {
         </Carousel.Item>
       </Carousel>
 
-      <section className="testimonials">
+      <section className="testimonials" style={{marginTop: "55px", marginBottom: "55px"}}>
         <Container>
           <h2 className="text-center">What Our Customers Say</h2>
           <Row>

@@ -90,7 +90,8 @@ const AppointmentForm = () => {
           className="form-input"
         />
       </form>
-      <button type="submit" className="btn btn-primary" style={{ backgroundColor: 'green', marginTop: '25px', marginBottom: "50px" }}>
+      <button type="submit" className="btn btn-primary" style={{ backgroundColor: 'green', marginTop: '25px', marginBottom: "50px" }} onChange={handleSubmit}
+      >
           Book Appointment
         </button>
     </div>
