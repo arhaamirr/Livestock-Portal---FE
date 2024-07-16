@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     min-height: 120vh; 
-    margin-left: 400px;
+    margin-left: 50%;
   }
   
   
@@ -41,5 +41,13 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+  }
+  
+  .error {
+    color: red;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 2px; 
+    font-size: small;
   }
   
