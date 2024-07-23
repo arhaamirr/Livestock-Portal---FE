@@ -9,6 +9,7 @@ import LivestockPage from './components/livestockPage';
 import AppointmentForm from './components/vetAppointment';
 import { Provider } from 'react-redux';
 import store from './redux/store'
+import SignUpPage from './components/signUp';
 
 const App = () => {
   const container = document.getElementById('root');
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/feeding" element={<FeedingRoutine />} />
           <Route path="/vet" element={<AppointmentForm />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
           <Route path="/livestock" element={<LivestockPage />} />        </Routes>
       </div>
     </Router>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -28,7 +29,10 @@ const LoginPage = () => {
       alert("Could not log in. Contact support")
     }
   };
-  
+  const navigate = useNavigate(); 
+  const handleSignupClick = () => {
+    navigate('/signup'); 
+  };
 
   return (
     <div className="login-container" style={{ height: '600px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -80,6 +84,14 @@ const LoginPage = () => {
         </form>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
+      <button
+          type="button"
+          className="btn btn-primary"
+          style={{ backgroundColor: 'green', marginTop: '25px', marginLeft: '120px' }}
+          onClick={handleSignupClick}
+        >
+          Signup
+        </button>
     </div>
   );
 };
