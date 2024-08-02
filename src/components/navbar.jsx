@@ -12,6 +12,7 @@ const NavbarComponent = () => {
             <Nav.Link href="/liveStock" className="nav-button">LiveStock</Nav.Link>
             <Nav.Link href="/vet" className="nav-button">Veterinary care</Nav.Link>
             <Nav.Link href="/login" className="nav-button">Log In</Nav.Link>
+            <Nav.Link href="/signup" className="nav-button">Sign Up</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

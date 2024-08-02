@@ -76,8 +76,7 @@ const AppointmentForm = () => {
       <div style={{ marginLeft: "5%" }}>
         <div className="doctor-info">
           <img src={doctor} alt="Doctor Rashid Mert" className="doctor-image" />
-          <p>Dr. Rashid Mert</p>
-          <p>Veterinary Surgeon</p>
+          <p>Dr. Rashid Mert - Veterinary Surgeon</p>
         </div>
         <form onSubmit={handleSubmit} className="appointment-form">
           <input

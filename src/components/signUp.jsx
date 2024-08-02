@@ -13,17 +13,17 @@ const SignUpPage = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/api/users/register", {
+      const response = await axios.post("/api/users/register", {
         name,
         email,
         password,
         phone,
-      });
+    });    
 
-      if (response.data.success) {
-        console.log("Sign up successful:", response.data);
-        alert("Sign up successful! Please log in.");
-        // window.location.href = '/';
+      if (response.status == 200) {
+        alert("Sign up successful");
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        window.location.href = '/';
       } else {
         setErrorMessage(response.data.message || "Sign up failed");
       }
@@ -98,7 +98,6 @@ const SignUpPage = () => {
             Sign Up
           </button>
         </form>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
     </div>
   );
