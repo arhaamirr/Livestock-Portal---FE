@@ -1,3 +1,4 @@
+
 .h3 {
   text-align: center;
   color: #4caf50;
@@ -710,8 +711,8 @@ a:hover{
   .input-label-a {
     font-size: 12px;
   }
-  .input-field-a {
-  }
+  /* .input-field-a {
+  } */
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
