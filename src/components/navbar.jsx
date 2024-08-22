@@ -15,7 +15,7 @@ const NavbarComponent = () => {
         <Navbar.Toggle aria-controls="navbarCollapse" className="me-0" />
         <Navbar.Collapse id="navbarCollapse">
           <Nav className="ms-auto p-4 p-lg-0">
-            <Nav.Link href="/" className="nav-button">
+            {/* <Nav.Link href="/" className="nav-button">
               Home
             </Nav.Link>
             <Nav.Link href="/liveStock" className="nav-button">
@@ -23,7 +23,7 @@ const NavbarComponent = () => {
             </Nav.Link>
             <Nav.Link href="/vet" className="nav-button">
               Veterinary care
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link href="/login" className="nav-button">
               Log In
             </Nav.Link>
