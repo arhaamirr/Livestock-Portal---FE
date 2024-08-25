@@ -12,6 +12,7 @@ import store from './redux/store';
 import './css/bootstrap.min.css';
 import SignUpPage from './components/signUp';
 import Dashboard from './components/AdminUser/Dashboard';
+import ResourceManagement from './components/AdminUser/resourceManagement';
 
 const App = () => {
   const container = document.getElementById('root');
@@ -23,11 +24,12 @@ const App = () => {
           <Routes>
             <Route className="col-lg-12" path="/" element={<HomePage />} />
             <Route className="col-lg-12" path="/dashboard" element={<Dashboard />} />
-            <Route path="/feeding" element={<FeedingRoutine />} />
-            <Route path="/vet" element={<AppointmentForm />} />
+            {/* {/* <Route path="/feeding" element={<FeedingRoutine />} />
+            <Route path="/vet" element={<AppointmentForm />} /> */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/livestock" element={<LivestockPage />} />
+            <Route path="/resource-management" element={<ResourceManagement />} />
+            {/* <Route path="/livestock" element={<LivestockPage />} /> */}
           </Routes>
         </div>
       </Router>

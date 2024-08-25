@@ -13,7 +13,6 @@ import Testimonial from "./Homepage/testimonial";
 import NavbarComponent from "./navbar";
 import TopbarComponent from "./topbar";
 import Footer from "./footer";
-import Copyright from "./copyright"
 
 const HomePage = () => {
 
@@ -38,7 +37,6 @@ const HomePage = () => {
       <Team />
       <Testimonial />
       <Footer />
-      <Copyright />
     </Container>
   );
 };

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
+import TopbarComponent from "./topbar";
+import NavbarComponent from "./navbar";
+import Footer from "./footer";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -50,13 +52,15 @@ const LoginPage = () => {
       alert("Could not log in. Contact support");
     }
   };
-  
+
   const handleSignupClick = () => {
     navigate("/signup");
   };
 
   return (
-    <section className="">
+    <section className="container-fluid px-0 mb-5">
+      <TopbarComponent />
+      <NavbarComponent />
       <div className="px-4 py-5 px-md-5 text-center text-lg-start" style={{ backgroundColor: "hsl(0, 0%, 96%)" }}>
         <div className="container">
           <div className="row gx-lg-5 align-items-center d-flex justify-content-center">
@@ -84,83 +88,8 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </section>
-
-
-    // <div
-    //   className="login-container-login"
-    //   style={{
-    //     height: "600px",
-    //     display: "flex",
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //   }}
-    // >
-    //   <div className="login-form-container-login" style={{ width: "300px" }}>
-    //     <h2 className="login-title">Login</h2>
-    //     <form onSubmit={handleSubmit} className="login-form">
-    //       <div className="form-group">
-    //         <label htmlFor="email" className="login-label">
-    //           Email:
-    //         </label>
-    //         <input
-    //           type="email"
-    //           className="form-control"
-    //           id="email"
-    //           value={email}
-    //           onChange={(e) => setEmail(e.target.value)}
-    //           required
-    //         />
-    //       </div>
-    //       <div className="form-group">
-    //         <label htmlFor="password" className="login-label">
-    //           Password:
-    //         </label>
-    //         <input
-    //           type="password"
-    //           className="form-control"
-    //           id="password"
-    //           value={password}
-    //           onChange={(e) => setPassword(e.target.value)}
-    //           required
-    //         />
-    //       </div>
-    //       <button
-    //         type="submit"
-    //         className="btn btn-primary"
-    //         style={{
-    //           backgroundColor: "green",
-    //           marginTop: "25px",
-    //           marginLeft: "120px",
-    //         }}
-    //       >
-    //         Login
-    //       </button>
-    //     </form>
-    //   </div>
-    //   <div>
-    //     <div
-    //       style={{
-    //         width: "2px",
-    //         height: "300px",
-    //         backgroundColor: "green",
-    //         margin: "0 20px",
-    //       }}
-    //     ></div>
-    //   </div>
-    //   <button
-    //     type="button"
-    //     className="btn btn-primary"
-    //     style={{
-    //       backgroundColor: "green",
-    //       marginTop: "25px",
-    //       marginLeft: "120px",
-    //     }}
-    //     onClick={handleSignupClick}
-    //   >
-    //     Signup
-    //   </button>
-    // </div>
   );
 };
 

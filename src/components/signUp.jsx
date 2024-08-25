@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../css/signUp.css";
+import TopbarComponent from "./topbar";
+import NavbarComponent from "./navbar";
+import Footer from "./footer";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
@@ -35,7 +38,9 @@ const SignUpPage = () => {
   };
 
   return (
-    <section className="">
+    <section className="container-fluid px-0 mb-5">
+      <TopbarComponent />
+      <NavbarComponent />
       <div className="px-4 py-5 px-md-5 text-center text-lg-start" style={{ backgroundColor: "hsl(0, 0%, 96%)" }}>
         <div className="container">
           <div className="row gx-lg-5 align-items-center">
@@ -97,73 +102,8 @@ const SignUpPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </section>
-    // <div
-    //   className="signup-container"
-    //   style={{
-    //     height: "600px",
-    //     display: "flex",
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //   }}
-    // >
-    //   <div>
-    //     <h2>Sign Up</h2>
-    //     <form onSubmit={handleSubmit} className="signup-form" >
-    //       <div className="form-group" >
-    //         <input
-    //           type="text"
-    //           className="form-input"
-    //           id="name"
-    //           placeholder="Name"
-    //           value={name}
-    //           onChange={(e) => setName(e.target.value)}
-    //           required
-    //         />
-    //       </div>
-    //       <div className="form-group">
-    //         <input
-    //           type="email"
-    //           id="email"
-    //           value={email}
-    //           onChange={(e) => setEmail(e.target.value)}
-    //           required
-    //           className="form-input"
-    //           placeholder="E-mail"
-    //         />
-    //       </div>
-    //       <div className="form-group">
-    //         <input
-    //           type="password"
-    //           className="form-input"
-    //           placeholder="Password"
-    //           id="password"
-    //           value={password}
-    //           onChange={(e) => setPassword(e.target.value)}
-    //           required
-    //         />
-    //       </div>
-    //       <div className="form-group">
-    //         <input
-    //           type="text"
-    //           className="form-input"
-    //           placeholder="contact Number"
-    //           id="phone"
-    //           value={phone}
-    //           onChange={(e) => setPhone(e.target.value)}
-    //           required
-    //         />
-    //       </div>
-    //       <button
-    //         type="submit"
-    //         className="btn btn-primary"
-    //         style={{ backgroundColor: "green", marginTop: "25px" }}
-    //       >
-    //         Sign Up
-    //       </button>
-    //     </form>
-    //   </div>
-    // </div>
   );
 };
 

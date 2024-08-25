@@ -4012,12 +4012,10 @@ readers do not read off random characters that represent icons */
 
 .fa-pen-square:before {
   content: "\f14b";
-  color: white;
 }
 
 .fa-pencil-alt:before {
   content: "\f303";
-  color: white !important;
 }
 
 .fa-pencil-ruler:before {

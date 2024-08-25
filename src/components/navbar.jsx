@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import '../css/NavbarComponent.css'; 
+import '../css/NavbarComponent.css';
 const NavbarComponent = () => {
   return (
     <Navbar
@@ -15,15 +15,6 @@ const NavbarComponent = () => {
         <Navbar.Toggle aria-controls="navbarCollapse" className="me-0" />
         <Navbar.Collapse id="navbarCollapse">
           <Nav className="ms-auto p-4 p-lg-0">
-            {/* <Nav.Link href="/" className="nav-button">
-              Home
-            </Nav.Link>
-            <Nav.Link href="/liveStock" className="nav-button">
-              LiveStock
-            </Nav.Link>
-            <Nav.Link href="/vet" className="nav-button">
-              Veterinary care
-            </Nav.Link> */}
             <Nav.Link href="/login" className="nav-button">
               Log In
             </Nav.Link>
