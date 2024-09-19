@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 const DashNavbar = () => {
+    const navigate = useNavigate();
     return (
         <div className="container-fluid" style={{position: "sticky", zIndex : 999}}>
             <nav
@@ -297,7 +300,7 @@ const DashNavbar = () => {
                                         <div className="user-box">
                                             <div className="avatar-lg">
                                                 <img
-                                                    src="assets/img/profile.jpg"
+                                                    src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
                                                     alt="image profile"
                                                     className="avatar-img rounded"
                                                 />
@@ -306,22 +309,18 @@ const DashNavbar = () => {
                                                 <h4>Hizrian</h4>
                                                 <p className="text-muted">hello@example.com</p>
                                                 <a
-                                                    href="profile.html"
-                                                    className="btn btn-xs btn-secondary btn-sm"
-                                                >View Profile</a
-                                                >
+                                                    className="btn btn-xs btn-secondary btn-sm me-2"
+                                                    onClick={() => navigate('/profile')}
+                                                    >View Profile
+                                                </a>
+                                                
+                                                <a
+                                                    className="btn btn-xs btn-secondary btn-sm "
+                                                    // onClick={() => navigate('/profile')}
+                                                    >Logout
+                                                </a>
                                             </div>
                                         </div>
-                                    </li>
-                                    <li>
-                                        <div className="dropdown-divider"></div>
-                                        <a className="dropdown-item" href="#">My Profile</a>
-                                        <a className="dropdown-item" href="#">My Balance</a>
-                                        <a className="dropdown-item" href="#">Inbox</a>
-                                        <div className="dropdown-divider"></div>
-                                        <a className="dropdown-item" href="#">Account Setting</a>
-                                        <div className="dropdown-divider"></div>
-                                        <a className="dropdown-item" href="#">Logout</a>
                                     </li>
                                 </div>
                             </ul>

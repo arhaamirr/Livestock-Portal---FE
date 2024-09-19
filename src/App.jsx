@@ -9,9 +9,10 @@ import SignUpPage from './components/signUp';
 import Dashboard from './components/AdminUser/Dashboard';
 import ResourceManagement from './components/AdminUser/resourceManagement';
 import { ToastContainer } from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.css';
 import FeedingRoutine from './components/AdminUser/feedingRoutine';
+import Error from './components/error';
+import Profile from './components/AdminUser/profile';
 
 const App = () => {
   return (
@@ -29,6 +30,8 @@ const App = () => {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/resource-management" element={<ResourceManagement />} />
             {/* <Route path="/livestock" element={<LivestockPage />} /> */}
+            <Route path="*" element={<Error/>}></Route>
+            <Route path="/profile" element={<Profile/>}></Route>
           </Routes>
         </div>
       </Router>
