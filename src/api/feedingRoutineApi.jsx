@@ -31,3 +31,14 @@ export const createFeedingRoutine = async (feedingRoutine) => {
   }
 };
 
+
+
+export const getLiveStocks = async () => {
+  try {
+    const response = await api.get('/livestock');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching feeding routines:', error);
+    throw error;
+  }
+};

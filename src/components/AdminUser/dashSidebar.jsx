@@ -5,7 +5,7 @@ const DashSidebar = () => {
     const navigate = useNavigate();
     const navContent = [
         {id: 1, name: "Resource Management", path: "/resource-management"},
-        {id: 2, name: "Feeding Routine", path: "/feeding-routine"},
+        {id: 2, name: "Feeding Routine", path: "/feeding"},
         {id: 3, name: "Shelter and Space", path: "/shelter-space"}
     ]
     return (

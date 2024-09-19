@@ -11,6 +11,7 @@ import ResourceManagement from './components/AdminUser/resourceManagement';
 import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import FeedingRoutine from './components/AdminUser/feedingRoutine';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Routes>
             <Route className="col-lg-12" path="/" element={<HomePage />} />
             <Route className="col-lg-12" path="/dashboard" element={<Dashboard />} />
+            <Route path="/feeding" element={<FeedingRoutine />} />
             {/* {/* <Route path="/feeding" element={<FeedingRoutine />} />
             <Route path="/vet" element={<AppointmentForm />} /> */}
             <Route path="/login" element={<LoginPage />} />
