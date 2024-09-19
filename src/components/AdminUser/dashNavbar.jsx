@@ -1,8 +1,6 @@
-import React from "react";
-
 const DashNavbar = () => {
     return (
-        <div className="container-fluid" style={{position: "sticky"}}>
+        <div className="container-fluid" style={{position: "sticky", zIndex : 999}}>
             <nav
                 className="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
                 <div className="container-fluid">
@@ -33,7 +31,7 @@ const DashNavbar = () => {
                                 </form>
                             </ul>
                         </li>
-                        <li className="nav-item topbar-icon dropdown hidden-caret">
+                        {/* <li className="nav-item topbar-icon dropdown hidden-caret">
                             <a
                                 className="nav-link dropdown-toggle"
                                 href="#"
@@ -123,9 +121,9 @@ const DashNavbar = () => {
                                     </a>
                                 </li>
                             </ul>
-                        </li>
-                        <li className="nav-item topbar-icon dropdown hidden-caret">
-                            <a
+                        </li> */}
+                        {/* <li className="nav-item topbar-icon dropdown hidden-caret">
+                             <a
                                 className="nav-link dropdown-toggle"
                                 href="#"
                                 id="notifDropdown"
@@ -201,8 +199,8 @@ const DashNavbar = () => {
                                     </a>
                                 </li>
                             </ul>
-                        </li>
-                        <li className="nav-item topbar-icon dropdown hidden-caret">
+                        </li> */}
+                        {/* <li className="nav-item topbar-icon dropdown hidden-caret">
                             <a
                                 className="nav-link"
                                 data-bs-toggle="dropdown"
@@ -279,7 +277,7 @@ const DashNavbar = () => {
                                     </div>
                                 </div>
                             </div>
-                        </li>
+                        </li> */}
 
                         <li className="nav-item topbar-user dropdown hidden-caret">
                             <a
@@ -288,13 +286,6 @@ const DashNavbar = () => {
                                 href="#"
                                 aria-expanded="false"
                             >
-                                <div className="avatar-sm">
-                                    <img
-                                        src="assets/img/profile.jpg"
-                                        alt="..."
-                                        className="avatar-img rounded-circle"
-                                    />
-                                </div>
                                 <span className="profile-username">
                                     <span className="op-7">Hi,</span>
                                     <span className="fw-bold">Hizrian</span>

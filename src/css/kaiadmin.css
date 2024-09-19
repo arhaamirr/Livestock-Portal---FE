@@ -233,7 +233,8 @@ label {
   opacity: 0.8 !important; }
 
 .op-7 {
-  opacity: 0.7 !important; }
+  opacity: 0.7 !important;
+}
 
 .op-6 {
   opacity: 0.6 !important; }
@@ -3544,20 +3545,26 @@ label.error {
 
 .user-box {
   display: flex;
-  padding: .25rem 1rem; }
+  padding: .25rem 1rem; 
+  z-index: 9999; }
   .user-box .u-text {
-    padding: 0 10px; }
+    padding: 0 10px;
+    z-index: 9999; }
     .user-box .u-text h4 {
       margin-bottom: 5px;
       margin-top: 4px;
       font-size: 1rem;
       font-weight: 400;
-      line-height: 1; }
+      line-height: 1; 
+      z-index: 9999; }
     .user-box .u-text .text-muted {
       font-size: 12px;
-      margin-bottom: 5px; }
+      margin-bottom: 5px;
+      z-index: 9999;  }
     .user-box .u-text .btn {
-      font-size: 11px; }
+      font-size: 11px;
+      z-index: 9999; 
+     }
 
 .caret {
   display: inline-block;

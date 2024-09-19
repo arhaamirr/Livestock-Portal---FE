@@ -1,24 +1,21 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './components/homePage';
-import FeedingRoutine from './components/feedingRoutinePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from './components/login';
-import LivestockPage from './components/livestockPage';
-import AppointmentForm from './components/vetAppointment';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import './css/bootstrap.min.css';
 import SignUpPage from './components/signUp';
 import Dashboard from './components/AdminUser/Dashboard';
 import ResourceManagement from './components/AdminUser/resourceManagement';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
-  const container = document.getElementById('root');
-  const root = createRoot(container);
   return (
     <Provider store={store}>
+       <ToastContainer />
       <Router>
         <div className="container-fluid mx-0 px-0 row">
           <Routes>

@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import TopbarComponent from "./topbar";
 import NavbarComponent from "./navbar";
 import Footer from "./footer";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   const [signIn, setSignIn] = useState(true);
   const [signUp, setSignUp] = useState(false);
@@ -27,11 +27,6 @@ const LoginPage = () => {
     setSignIn(false);
   }, []);
 
-  const toggle = () => {
-    setSignUp(!signUp);
-    setSignIn(!signIn);
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -41,20 +36,16 @@ const LoginPage = () => {
         password,
       });
       if (response.status == 200) {
-        alert("Login successful");
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("token", JSON.stringify(response.data.token));
         navigate("/dashboard");
+        toast.success("Login successful")
       } else {
-        setErrorMessage(response.data.message || "Login failed");
+        toast.warn(`${response.data.message || "Login failed"}`)
       }
     } catch (error) {
       alert("Could not log in. Contact support");
     }
-  };
-
-  const handleSignupClick = () => {
-    navigate("/signup");
   };
 
   return (
@@ -69,12 +60,12 @@ const LoginPage = () => {
                 <div className="card-body py-5 px-md-5">
                   <form onSubmit={handleSubmit}>
                     <div data-mdb-input-init className="form-outline mb-4">
-                      <label className="form-label" for="email">Email address</label>
+                      <label className="form-label" htmlFor="email">Email address</label>
                       <input type="email" id="email" value={email}
                         onChange={(e) => setEmail(e.target.value)} className="form-control" required />
                     </div>
                     <div data-mdb-input-init className="form-outline mb-4">
-                      <label className="form-label" for="password">Password</label>
+                      <label className="form-label" htmlFor="password">Password</label>
                       <input type="password" id="password" className="form-control" value={password}
                         onChange={(e) => setPassword(e.target.value)} required />
                     </div>

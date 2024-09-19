@@ -1,10 +1,7 @@
-import React from "react";
 import DashSidebar from "./dashSidebar";
-import { useNavigate } from "react-router-dom";
 import DashNavbar from "./dashNavbar";
 
 const Dashboard = () => {
-    const navigate = useNavigate();
     return (
         <div className="wrapper">
             <DashSidebar></DashSidebar>

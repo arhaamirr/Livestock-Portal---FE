@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import "../css/signUp.css";
 import TopbarComponent from "./topbar";
 import NavbarComponent from "./navbar";
 import Footer from "./footer";
+import { toast } from "react-toastify";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -24,15 +24,15 @@ const SignUpPage = () => {
       });
 
       if (response.status == 200) {
-        alert("Sign up successful");
         localStorage.setItem("user", JSON.stringify(response.data.user));
+        toast.success("Sign up successful");
         window.location.href = '/';
       } else {
-        setErrorMessage(response.data.message || "Sign up failed");
+        toast.warn(`${response.data.message || "Sign up failed"}`)
       }
     } catch (error) {
       console.error("Error signing up:", error);
-      alert("Failed to sign up. Please try again.");
+      toast.error("Failed to sign up. Please try again.");
 
     }
   };
@@ -62,33 +62,33 @@ const SignUpPage = () => {
                 <div className="card-body py-5 px-md-5">
                   <form onSubmit={handleSubmit}>
                     <div data-mdb-input-init className="form-outline mb-4">
-                      <label className="form-label" for="name">Username</label>
+                      <label className="form-label" htmlFor="name">Username</label>
                       <input type="text" id="name" className="form-control" value={name}
                         onChange={(e) => setName(e.target.value)}
                         required />
                     </div>
                     <div data-mdb-input-init className="form-outline mb-4">
-                      <label className="form-label" for="email">Email address</label>
+                      <label className="form-label" htmlFor="email">Email address</label>
                       <input type="email" id="email" className="form-control" value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required />
                     </div>
                     <div data-mdb-input-init className="form-outline mb-4">
-                      <label className="form-label" for="email">Phone Number</label>
+                      <label className="form-label" htmlFor="email">Phone Number</label>
                       <input type="text" className="form-control" id="phone"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         required />
                     </div>
                     <div data-mdb-input-init className="form-outline mb-4">
-                      <label className="form-label" for="form3Example4">Password</label>
+                      <label className="form-label" htmlFor="form3Example4">Password</label>
                       <input type="password" className="form-control" id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)} required />
                     </div>
                     <div className="form-check d-flex justify-content-center mb-4">
                       <input className="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
-                      <label className="form-check-labsel" for="form2Example33">
+                      <label className="form-check-labsel" htmlFor="form2Example33">
                         Subscribe to our newsletter
                       </label>
                     </div>
