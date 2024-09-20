@@ -17,7 +17,7 @@ const FeedingRoutine = () => {
   };
   useEffect(()=>{
     fetchFeedingRoutines();
-  }, [])
+  }, [isOpen])
 
   const fetchFeedingRoutines = async () =>{
 

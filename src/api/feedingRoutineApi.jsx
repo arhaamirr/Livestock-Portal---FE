@@ -31,11 +31,43 @@ export const createFeedingRoutine = async (feedingRoutine) => {
   }
 };
 
+export const editFeedingRoutine = async (feedingRoutineId,feedingRoutine) => {
+  try {
+    const response = await api.put(`/feeding-routines/${feedingRoutineId}`, feedingRoutine);
+    return response.data;
+  } catch (error) {
+    console.error('Error editing feeding routine:', error);
+    throw error;
+  }
+};
+
+
+
 
 
 export const getLiveStocks = async () => {
   try {
     const response = await api.get('/livestock');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching livestocks:', error);
+    throw error;
+  }
+};
+
+export const getFeedingRoutineAgainstId = async (id) => {
+  try {
+    const response = await api.get(`/feeding-routines/livestock/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching feeding routines:', error);
+    throw error;
+  }
+};
+
+export const getFeedingRoutineById = async (id) => {
+  try {
+    const response = await api.get(`/feeding-routines/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching feeding routines:', error);

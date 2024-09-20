@@ -1,5 +1,4 @@
 export const formatDate = (dateString) => {
-  console.log(dateString);
     const date = new Date(dateString);
   
     // Format the day, month, and year
