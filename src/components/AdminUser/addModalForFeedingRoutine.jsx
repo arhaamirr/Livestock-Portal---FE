@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -12,9 +11,6 @@ import {
 } from "../../api/feedingRoutineApi";
 import { formatDate } from "../../util/getFormatedDateAndTIme";
 import { toast } from "react-toastify";
-import { toast } from "react-toastify";
-import { getLiveStocks } from "../../api/feedingRoutineApi";
-// import { addResource } from "../../api/feedingRoutineApi";
 
 function AddModalForFeedingRoutine({ handleIsOPen, isOpen, feedingRoutineId }) {
   const [data, setData] = useState({
