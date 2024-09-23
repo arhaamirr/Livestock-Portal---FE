@@ -1,64 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DashSidebar from "./dashSidebar";
 import DashNavbar from "./dashNavbar";
 import AddModal from "./addModal";
 import "../../../src/css/addButton.css";
+import { getResources } from "../../api/feedingRoutineApi";
+import { formatDate } from "../../util/getFormatedDateAndTIme";
 
 const ResourceManagement = () => {
 
   const [isOpen, setIsOpen] = useState(false);
-  const users = [
-    { id: 1, name: "Alice", age: 25 },
-    { id: 2, name: "Bob", age: 30 },
-    { id: 3, name: "Charlie", age: 35 },
-  ];
+  const [resourceId, setResourceId] = useState();
+  const [data, setData] = useState([]);
 
-  const handleIsOPen = () => {
+  const handleIsOpen = ( id = null) => {
+    setResourceId(id);
     setIsOpen((prev) => !prev);
   };
+  useEffect(()=>{
+    fetchResources();
+  }, [])
+
+  const fetchResources = async () =>{
+    try
+    {
+        const resources = await getResources();
+        console.log(resources, "resources")
+        setData(resources)
+    } catch(e){
+        console.error(e);
+    }
+  }
+
   return (
     <div className="wrapper">
       <DashSidebar></DashSidebar>
       <DashNavbar></DashNavbar>
-      {isOpen && <AddModal isOpen={isOpen}  handleIsOPen={handleIsOPen} /> }
-      {/* <div className="modal" tabindex="-1">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Modal title</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <p>Modal body text goes here.</p>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" className="btn btn-primary">
-                Save changes
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> */}
+      {isOpen && <AddModal isOpen={isOpen}  handleIsOpen={handleIsOpen} resourceId={resourceId}/> }
       <div className="main-panel mt-5">
-        <div className="d-flex align-content-center align-items-center justify-content-evenly">
-          {users && users.length > 0 ? (
-            users?.map((user) => (
+        <div className="row align-content-center align-items-center justify-content-evenly">
+          {data && data.length > 0 ? (
+            data?.map((res) => (
               <div
-                className="card card-stats card-round"
-                style={{ width: "30%" }}
-                key={user.id}
+                className="col-6 card card-stats card-round"
+                style={{ width: "40%" }}
+                key={res?._id}
               >
                 <div className="card-body">
                   <div className="row align-items-center">
@@ -69,8 +54,16 @@ const ResourceManagement = () => {
                     </div>
                     <div className="col col-stats ms-3 ms-sm-0">
                       <div className="numbers">
-                        <p className="card-category">{user.name}</p>
-                        <h4 className="card-title">{user.age}</h4>
+                      <p className="card-category"> <b>Land Name:</b> {res?.land_id?.name}</p>
+                      <p className="card-category"> <b>Location:</b> {res?.land_id?.location}</p>
+                      <p className="card-category"> <b>Capacity:</b> {res?.land_id?.capacity}</p>
+                      <p className="card-category"> <b>Feed:</b> {res?.feed}</p>
+                      <p className="card-category"> <b>Labor:</b> {res?.labor}</p>
+                      </div>
+                    </div>
+                    <div className="col-icon">
+                      <div className="icon-primary" style={{position:"relative", bottom:"20px", left:"25px", color:"green", cursor:"pointer"}} onClick={() => {handleIsOpen(res?._id)}}>
+                        <i className="fas fa-pen"></i>
                       </div>
                     </div>
                   </div>
@@ -93,7 +86,7 @@ const ResourceManagement = () => {
         </div>
       </div>
 
-      <button className="floating-button" onClick={handleIsOPen}>
+      <button className="floating-button" onClick={handleIsOpen}>
         +
       </button>
     </div>

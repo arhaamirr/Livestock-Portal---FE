@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import FeedingRoutine from './components/AdminUser/feedingRoutine';
 import Error from './components/error';
 import Profile from './components/AdminUser/profile';
+import AuthGuard from './guards/AuthGuard';
 
 const App = () => {
   return (
@@ -22,16 +23,15 @@ const App = () => {
         <div className="container-fluid mx-0 px-0 row">
           <Routes>
             <Route className="col-lg-12" path="/" element={<HomePage />} />
-            <Route className="col-lg-12" path="/dashboard" element={<Dashboard />} />
-            <Route path="/feeding" element={<FeedingRoutine />} />
-            {/* {/* <Route path="/feeding" element={<FeedingRoutine />} />
-            <Route path="/vet" element={<AppointmentForm />} /> */}
+            <Route className="col-lg-12" path="/dashboard" element={<AuthGuard><Dashboard /></AuthGuard>} />
+            <Route path="/feeding" element={<AuthGuard><FeedingRoutine /></AuthGuard>} />
+            {/* <Route path="/vet" element={<AppointmentForm />} /> */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/resource-management" element={<ResourceManagement />} />
+            <Route path="/resource-management" element={<AuthGuard><ResourceManagement /></AuthGuard>} />
             {/* <Route path="/livestock" element={<LivestockPage />} /> */}
             <Route path="*" element={<Error/>}></Route>
-            <Route path="/profile" element={<Profile/>}></Route>
+            <Route path="/profile" element={<AuthGuard><Profile/></AuthGuard>}></Route>
           </Routes>
         </div>
       </Router>

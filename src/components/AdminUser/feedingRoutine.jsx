@@ -5,13 +5,13 @@ import "../../../src/css/addButton.css";
 import AddModalForFeedingRoutine from "./addModalForFeedingRoutine";
 import { getFeedingRoutines } from "../../api/feedingRoutineApi";
 import { formatDate } from "../../util/getFormatedDateAndTIme";
-const FeedingRoutine = () => {
 
+const FeedingRoutine = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [feedingRoutineId, setFeedingRoutineId]=useState();
   const [data, setData] = useState([]);
+  
   const handleIsOPen = ( id = null) => {
-    console.log(id)
     setFeedingRoutineId(id);
     setIsOpen((prev) => !prev);
   };
@@ -20,27 +20,28 @@ const FeedingRoutine = () => {
   }, [isOpen])
 
   const fetchFeedingRoutines = async () =>{
-
-    try{
-        const response=   await getFeedingRoutines();
+    try
+    {
+        const response = await getFeedingRoutines();
         setData(response)
-    }catch(e){
+    } catch(e){
         console.error(e);
     }
   }
+
   return (
     <div className="wrapper">
       <DashSidebar></DashSidebar>
       <DashNavbar></DashNavbar>
       {isOpen && <AddModalForFeedingRoutine isOpen={isOpen}  handleIsOPen={handleIsOPen} feedingRoutineId={feedingRoutineId}/> }
       <div className="main-panel mt-5">
-        <div className="d-flex align-content-center align-items-center justify-content-evenly">
+        <div className="row align-content-center align-items-center justify-content-evenly">
           {data && data.length > 0 ? (
             data?.map((feed) => (
               <div
-                className="card card-stats card-round"
+                className="card col-4 card-stats card-round"
                 style={{ width: "30%" }}
-                key={feed.id}
+                key={feed._id || feed.id}
               >
                 <div className="card-body">
                   <div className="row align-items-center">
@@ -51,10 +52,10 @@ const FeedingRoutine = () => {
                     </div>
                     <div className="col col-stats ms-3 ms-sm-0">
                       <div className="numbers">
-                      <p className="card-category"> Type : {feed?.livestock_id?.type}</p>
-                      <p className="card-category"> Quantity : {feed?.quantity}</p>
-                      <p className="card-category"> Feed Type : {feed?.feed_type}</p>
-                        <p className="card-category"> Routine : {formatDate(feed?.feeding_time)}</p>
+                      <p className="card-category"> <b >Type:</b> {feed?.livestock_id?.type}</p>
+                      <p className="card-category"> <b>Quantity:</b> {feed?.quantity}</p>
+                      <p className="card-category"> <b>Feed Type:</b> {feed?.feed_type}</p>
+                        <p className="card-category"> <b>Routine:</b> {formatDate(feed?.feeding_time)}</p>
                       </div>
                     </div>
                     <div className="col-icon">
@@ -76,7 +77,7 @@ const FeedingRoutine = () => {
                 fontSize: "20px",
               }}
             >
-              No Resources to show. Please Add.
+              No Feeding Routines to show. Please Add.
             </div>
           )}
         </div>

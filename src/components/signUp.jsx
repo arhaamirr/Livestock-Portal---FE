@@ -5,12 +5,15 @@ import TopbarComponent from "./topbar";
 import NavbarComponent from "./navbar";
 import Footer from "./footer";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [role, setRole] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,12 +24,12 @@ const SignUpPage = () => {
         email,
         password,
         phone,
+        role
       });
 
       if (response.status == 200) {
-        localStorage.setItem("user", JSON.stringify(response.data.user));
         toast.success("Sign up successful");
-        window.location.href = '/';
+        navigate('/login');
       } else {
         toast.warn(`${response.data.message || "Sign up failed"}`)
       }
@@ -45,7 +48,7 @@ const SignUpPage = () => {
         <div className="container">
           <div className="row gx-lg-5 align-items-center">
             <div className="col-lg-6 mb-5 mb-lg-0 d-block d-sm-block">
-              <h1 className="my-5 display-3 fw-bold ls-tight">
+              <h1 className="my-5 display-3 fw-bold ls-tight" style={{fontSize: "20px"}}>
                 The best offer <br />
                 <span className="text-primary">for your business</span>
               </h1>
@@ -86,14 +89,16 @@ const SignUpPage = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)} required />
                     </div>
-                    <div className="form-check d-flex justify-content-center mb-4">
-                      <input className="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
-                      <label className="form-check-labsel" htmlFor="form2Example33">
-                        Subscribe to our newsletter
+                    <button onClick={()=> setRole("admin")} type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary col-12 text-dark">
+                      Sign up as Admin
+                    </button>
+                    <div className="form-check d-flex justify-content-center">
+                      <label className="form-check-labsel">
+                        or
                       </label>
                     </div>
-                    <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary  mb-5 col-12 text-light">
-                      Sign up
+                    <button onClick={()=> setRole("user")} type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary mb-5 col-12 text-dark">
+                      Sign up as User
                     </button>
                   </form>
                 </div>

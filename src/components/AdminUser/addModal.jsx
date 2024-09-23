@@ -4,15 +4,31 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-// import { addResource } from "../../api/feedingRoutineApi";
+import { getShelters } from "../../api/feedingRoutineApi";
 
-function AddModal({ handleIsOPen, isOpen }) {
+function AddModal({ handleIsOpen, isOpen }) {
   const [data, setData] = useState({
     resource: null,
     land: null,
     feed: null,
     labor: null,
   });
+
+  const [shelters, setShelters] = useState([]);
+
+  useEffect(()=>{
+    initializeShelters();
+  },[])
+
+  const initializeShelters = async () => {
+    try {
+      const resp = await getShelters();
+      setShelters(resp);
+      console.log(resp,"resp")
+    } catch(error) {
+
+    }
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,17 +39,13 @@ function AddModal({ handleIsOPen, isOpen }) {
     }));
   };
 
-
   const handleSubmitData = async () => {
-    console.log("dsfdf");
     console.log(data);
-
     try {
       const response = await addResource(data);
-      console.log(response, "responseresponseresponse");
     } catch (e) {
       console.log(e);
-      toast.error("SOmething went wrong !!");
+      toast.error("Something went wrong !!");
     }
   };
 
@@ -41,29 +53,17 @@ function AddModal({ handleIsOPen, isOpen }) {
     <>
       <Modal
         show={isOpen}
-        onHide={handleIsOPen}
+        onHide={handleIsOpen}
         size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Add/Edit Resource</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label></Form.Label>Resources
-              <Form.Select
-                aria-label="Default select example"
-                onChange={(e) => handleChange(e)}
-                value={data.resource}
-                name="resource"
-              >
-                <option>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </Form.Select>
               <Form.Label className="mt-1">Land</Form.Label>
               <Form.Select
                 aria-label="Default select example"
@@ -71,10 +71,12 @@ function AddModal({ handleIsOPen, isOpen }) {
                 value={data.land}
                 name="land"
               >
-                <option>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option value="" disabled>
+                    Choose Land
+                </option>
+                {shelters?.map((sh) => (
+                    <option value={sh?._id}>{sh?.name}</option>
+                ))}
               </Form.Select>
               <Form.Label className="mt-1">Feed</Form.Label>
               <Form.Control
@@ -96,7 +98,7 @@ function AddModal({ handleIsOPen, isOpen }) {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleIsOPen}>
+          <Button variant="secondary" onClick={handleIsOpen}>
             Close
           </Button>
           <Button variant="primary" onClick={handleSubmitData}>

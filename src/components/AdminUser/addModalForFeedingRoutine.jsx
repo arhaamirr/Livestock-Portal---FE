@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -11,6 +12,8 @@ import {
 } from "../../api/feedingRoutineApi";
 import { formatDate } from "../../util/getFormatedDateAndTIme";
 import { toast } from "react-toastify";
+import { toast } from "react-toastify";
+import { getLiveStocks } from "../../api/feedingRoutineApi";
 // import { addResource } from "../../api/feedingRoutineApi";
 
 function AddModalForFeedingRoutine({ handleIsOPen, isOpen, feedingRoutineId }) {
@@ -123,7 +126,7 @@ function AddModalForFeedingRoutine({ handleIsOPen, isOpen, feedingRoutineId }) {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add Feeding Routines</Modal.Title>
+          <Modal.Title>Add/Edit Feeding Routines</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>

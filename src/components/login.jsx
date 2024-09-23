@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
 
   const [signIn, setSignIn] = useState(true);
   const [signUp, setSignUp] = useState(false);
@@ -34,17 +35,18 @@ const LoginPage = () => {
       const response = await axios.post(`/api/users/login`, {
         email,
         password,
+        role
       });
       if (response.status == 200) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("token", JSON.stringify(response.data.token));
         navigate("/dashboard");
-        toast.success("Login successful")
+        toast.success("Login successful");
       } else {
         toast.warn(`${response.data.message || "Login failed"}`)
       }
     } catch (error) {
-      alert("Could not log in. Contact support");
+        toast.error("Error login")
     }
   };
 
@@ -69,8 +71,16 @@ const LoginPage = () => {
                       <input type="password" id="password" className="form-control" value={password}
                         onChange={(e) => setPassword(e.target.value)} required />
                     </div>
-                    <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary  mb-5 col-12 text-light">
-                      Login
+                    <button onClick={()=>setRole("admin")} type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary mt-3 col-12 text-dark">
+                      Login as Admin
+                    </button>
+                    <div className="form-check d-flex justify-content-center">
+                      <label className="form-check-labsel">
+                        or
+                      </label>
+                    </div>
+                    <button onClick={()=>setRole("user")} type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary mb-5 col-12 text-dark">
+                      Login as User
                     </button>
                   </form>
                 </div>

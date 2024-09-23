@@ -1,8 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client"; // updated import
 import "./index.css";
 import App from "./App";
-import reportWebVitals from "../reportWebVitals"; 
 
 const RootApp = () => {
   return (
@@ -12,11 +11,12 @@ const RootApp = () => {
   );
 };
 
-ReactDOM.render(
+// Create the root with the new API
+const root = ReactDOM.createRoot(document.getElementById("root")); // Use createRoot
+
+// Render the component tree
+root.render(
   <React.StrictMode>
     <RootApp />
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
-
-reportWebVitals();

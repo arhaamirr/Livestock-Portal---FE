@@ -21,6 +21,17 @@ export const getFeedingRoutines = async () => {
   }
 };
 
+export const getResources = async () => {
+  const id = "a3213123"
+  try {
+    const response = await api.get(`/resource/${id}`);
+    return response.data;
+  } catch(error) {
+    console.error('Error fetching resources:', error);
+    throw error;
+  }
+}
+
 export const createFeedingRoutine = async (feedingRoutine) => {
   try {
     const response = await api.post('/feeding-routines', feedingRoutine);
@@ -40,10 +51,6 @@ export const editFeedingRoutine = async (feedingRoutineId,feedingRoutine) => {
     throw error;
   }
 };
-
-
-
-
 
 export const getLiveStocks = async () => {
   try {
@@ -74,3 +81,14 @@ export const getFeedingRoutineById = async (id) => {
     throw error;
   }
 };
+
+export const getShelters = async () => {
+  try {
+    const response = await api.get('/shelters');
+    console.log(response, "resp")
+    return response.data;
+  }  catch(error) {
+    console.log("Error fetching shelters");
+    throw error;
+  }
+}

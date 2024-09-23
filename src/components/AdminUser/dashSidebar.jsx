@@ -38,7 +38,7 @@ const DashSidebar = () => {
                 <div className="sidebar-content">
                     <ul className="nav nav-secondary">
                     {navContent && navContent.map((links)=> (
-                        <li className="nav-item" key={links.id}>
+                        <li className="nav-item" key={links.id} style={{cursor: "pointer"}}>
                             <a onClick={() => navigate(links.path)}>
                                 <i className="fas fa-file"></i>
                                 <p>{links.name}</p>
