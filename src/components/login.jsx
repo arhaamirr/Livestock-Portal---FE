@@ -58,7 +58,7 @@ const LoginPage = () => {
       <div className="px-4 py-5 px-md-5 text-center text-lg-start" style={{ backgroundColor: "hsl(0, 0%, 96%)" }}>
         <div className="container">
           <div className="row gx-lg-5 align-items-center d-flex justify-content-center">
-            <div className="col-lg-6 mb-5 mb-lg-0">
+            <div className="col-lg-5 col-md-8 col-9 col-sm-9  mb-5 mb-lg-0">
               <div className="card">
                 <div className="card-body py-5 px-md-5">
                   <form onSubmit={handleSubmit}>

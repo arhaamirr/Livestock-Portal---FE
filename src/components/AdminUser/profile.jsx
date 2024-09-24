@@ -2,23 +2,57 @@ import React, { useState, useEffect } from 'react';
 import { getUser } from '../../service/roles';
 import DashSidebar from "./dashSidebar";
 import DashNavbar from "./dashNavbar";
-import "../../css/profile.css"
+import { fetchUser, updateUser } from '../../api/profile';
+import { getRole, updateLocalUser } from '../../service/roles';
+import "../../css/profile.css";
+import { toast } from "react-toastify";
 
 const Profile = () => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const fetchedUser = await getUser(); //change the api call
-                setUser(fetchedUser);
-            } catch (error) {
-                console.error("Error fetching user:", error);
-            }
-        };
+        const fetchedUser = getUser();
+        setUser(fetchedUser);  // Set initial user
+    
+        if (fetchedUser) {
+            const fetchUserData = async () => {
+                try {
+                    const updatedUser = await fetchUser(fetchedUser.email, getRole());
+                    setUser(updatedUser.user);
+                } catch (error) {
+                    console.error("Error fetching user:", error);
+                }
+            };
+    
+            fetchUserData();
+        }
+    }, []);  
 
-        fetchUser();
-    },[])
+    // Handler to update the input fields as the user types
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUser((prevUser) => ({
+            ...prevUser,
+            [name]: value
+        }));
+    };
+
+    const handleUpdateUser = async () => {
+        try {
+            const updatedUser = await updateUser(user);
+            console.log(updatedUser, "udpae")
+            if(updatedUser.updated == 1) {
+                updateLocalUser(updatedUser?.name, updatedUser?.email);
+                toast.success(updatedUser.message)
+            }
+            else {
+                toast.error(updatedUser.message)
+            }
+        }
+        catch(e) {
+            console.error("Error updating user", e);
+        }
+    }
 
     return (
         <div className="wrapper">
@@ -39,19 +73,20 @@ const Profile = () => {
                         </div>
                         <div className="row mt-3">
                             <div className="col-md-12"><label className="labels">Username</label>
-                            <input type="text" className="form-control mt-1" placeholder="Enter Username" value=""/></div>
+                            <input type="text" className="form-control mt-1" placeholder="Enter Username" name="name" value={user?.name} onChange={handleInputChange}/></div>
                             <div className="col-md-12 mt-4"><label className="labels">Mobile Number</label>
-                            <input type="text" className="form-control mt-1" placeholder="Enter phone number" value=""/></div>
+                            <input type="text" className="form-control mt-1" placeholder="Enter phone number" name="phone" value={user?.phone} onChange={handleInputChange}/></div>
                             <div className="col-md-12 mt-4"><label className="labels">Address Line 1</label>
-                            <input type="text" className="form-control mt-1" placeholder="Enter address line 1" value=""/></div>
+                            <input type="text" className="form-control mt-1" placeholder="Enter address line 1" name="address1" value={user?.address1} onChange={handleInputChange}/></div>
                             <div className="col-md-12 mt-4"><label className="labels">Address Line 2</label>
-                            <input type="text" className="form-control mt-1" placeholder="Enter address line 2" value=""/></div>
+                            <input type="text" className="form-control mt-1" placeholder="Enter address line 2" name="address2" value={user?.address2} onChange={handleInputChange}/></div>
                             <div className="col-md-12 mt-4"><label className="labels">Postcode</label>
-                            <input type="text" className="form-control mt-1" placeholder="Enter postcode" value=""/></div>
+                            <input type="text" className="form-control mt-1" placeholder="Enter postcode" name="postcode" value={user?.postcode} onChange={handleInputChange}/></div>
                             <div className="col-md-12 mt-4"><label className="labels">Email ID</label>
-                            <input type="text" className="form-control mt-1" placeholder="Enter email id" value="" disabled/></div>
+                            <input type="text" className="form-control mt-1" placeholder="Enter email id" name="email" value={user?.email} disabled/></div>
                         </div>
-                        <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                        <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="button" onClick={()=> handleUpdateUser()}>Save Profile</button></div>
+                        {/* <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="button" onClick={}>Change Password</button></div> */}
                     </div>
                 </div>
             </div>
