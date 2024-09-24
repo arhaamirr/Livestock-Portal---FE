@@ -40,6 +40,7 @@ const LoginPage = () => {
       if (response.status == 200) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("token", JSON.stringify(response.data.token));
+        localStorage.setItem("role", JSON.stringify(response.data.role));
         navigate("/dashboard");
         toast.success("Login successful");
       } else {

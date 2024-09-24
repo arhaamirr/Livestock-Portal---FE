@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import doctor from "../assets/doctor.jpeg";
+import DashSidebar from "./AdminUser/dashSidebar";
+import DashNavbar from "./AdminUser/dashNavbar";
 import "../css/vet.css";
 
 const AppointmentForm = () => {
@@ -71,6 +73,9 @@ const AppointmentForm = () => {
   };
 
   return (
+    <div className="wrapper">
+    <DashSidebar></DashSidebar>
+    <DashNavbar></DashNavbar>
     <div style={{ marginLeft: "35%", marginTop: "25px" }}>
       <h2>Book Veterinary Appointment</h2>
       <div style={{ marginLeft: "5%" }}>
@@ -153,6 +158,7 @@ const AppointmentForm = () => {
           Book Appointment
         </button>
       </div>
+    </div>
     </div>
   );
 };

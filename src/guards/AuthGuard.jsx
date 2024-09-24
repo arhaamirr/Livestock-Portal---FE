@@ -1,10 +1,10 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { isAuthenticated } from '../service/roles';
 
 const AuthGuard = ({ children }) => {
-  const token = localStorage.getItem('token');
-  console.log(token, "token")
-  if (!token) {
+
+  if (!isAuthenticated()) {
     return <Navigate to="/login" />;
   }
   return children;

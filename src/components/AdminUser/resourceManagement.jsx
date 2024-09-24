@@ -4,7 +4,6 @@ import DashNavbar from "./dashNavbar";
 import AddModal from "./addModal";
 import "../../../src/css/addButton.css";
 import { getResources } from "../../api/feedingRoutineApi";
-import { formatDate } from "../../util/getFormatedDateAndTIme";
 
 const ResourceManagement = () => {
 

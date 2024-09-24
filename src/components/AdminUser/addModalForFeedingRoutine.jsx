@@ -82,8 +82,6 @@ function AddModalForFeedingRoutine({ handleIsOPen, isOpen, feedingRoutineId }) {
   };
 
   const handleSubmitData = async () => {
-    console.log("dsfdf");
-  
     data.user_id="66ec27489e7fcfc83dc16656"
     try {
       console.log(isEdit,feedingRoutineId,"isEditisEdit")

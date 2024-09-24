@@ -1,18 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getRole } from "../../service/roles";
+import land from "../../assets/land.svg";
+import feeding from "../../assets/feeding.svg";
+import shelter from "../../assets/shelter.svg";
+import vet from "../../assets/vet.svg";
 
 const DashSidebar = () => {
+    const [role, setRole] = useState(null); 
     const navigate = useNavigate();
-    const navContent = [
-        {id: 1, name: "Resource Management", path: "/resource-management"},
-        {id: 2, name: "Feeding Routine", path: "/feeding"},
-        {id: 3, name: "Shelter and Space", path: "/shelter-space"}
-    ]
+
+    useEffect(()=>{
+        setRole(getRole());
+    },[])
+
+    const adminNavContent = [
+        { id: 1, name: "Resource Management", path: "/resource-management", svg: land},
+        { id: 2, name: "Feeding Routine", path: "/feeding", svg: feeding },
+        { id: 3, name: "Shelter and Space", path: "/shelter-space", svg: shelter },
+    ];
+
+    const userNavContent = [
+        { id: 1, name: "Vet Appointment", path: "/vet-appointment", svg: vet },
+    ];
+
+    const getNavContent = () => {
+        switch (role) {
+            case 'admin':
+                return adminNavContent;
+            case 'user':
+                return userNavContent;
+            default:
+                return userNavContent
+        }
+    };
+
+    const navContent = getNavContent();
+
     return (
         <div className="sidebar" data-background-color="dark">
             <div className="sidebar-logo">
                 <div className="logo-header" data-background-color="dark">
-                    <a href="index.html" className="logo">
+                    <a href="/" className="logo">
                         <img
                             src="assets/img/kaiadmin/logo_light.svg"
                             alt="navbar brand"
@@ -37,13 +66,13 @@ const DashSidebar = () => {
             <div className="sidebar-wrapper scrollbar scrollbar-inner">
                 <div className="sidebar-content">
                     <ul className="nav nav-secondary">
-                    {navContent && navContent.map((links)=> (
-                        <li className="nav-item" key={links.id} style={{cursor: "pointer"}}>
-                            <a onClick={() => navigate(links.path)}>
-                                <i className="fas fa-file"></i>
-                                <p>{links.name}</p>
-                            </a>
-                        </li>
+                        {navContent.map((link) => (
+                            <li className="nav-item" key={link.id} style={{ cursor: "pointer" }}>
+                                <a onClick={() => navigate(link.path)}>
+                                    <i className="fas"><img src={link.svg}></img></i>
+                                    <p>{link.name}</p>
+                                </a>
+                            </li>
                         ))}
                     </ul>
                 </div>

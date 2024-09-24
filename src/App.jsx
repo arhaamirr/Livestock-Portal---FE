@@ -13,7 +13,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import FeedingRoutine from './components/AdminUser/feedingRoutine';
 import Error from './components/error';
 import Profile from './components/AdminUser/profile';
+import AdminGuard from './guards/AdminGuard';
 import AuthGuard from './guards/AuthGuard';
+import AppointmentForm from './components/vetAppointment';
+import UserGuard from './guards/UserGuard';
 
 const App = () => {
   return (
@@ -23,15 +26,15 @@ const App = () => {
         <div className="container-fluid mx-0 px-0 row">
           <Routes>
             <Route className="col-lg-12" path="/" element={<HomePage />} />
-            <Route className="col-lg-12" path="/dashboard" element={<AuthGuard><Dashboard /></AuthGuard>} />
-            <Route path="/feeding" element={<AuthGuard><FeedingRoutine /></AuthGuard>} />
-            {/* <Route path="/vet" element={<AppointmentForm />} /> */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/resource-management" element={<AuthGuard><ResourceManagement /></AuthGuard>} />
+            <Route className="col-lg-12" path="/dashboard" element={<AuthGuard><Dashboard /></AuthGuard>} />
+            <Route path="/profile" element={<AuthGuard><Profile/></AuthGuard>}></Route>
+            <Route path="/resource-management" element={<AdminGuard><ResourceManagement /></AdminGuard>} />
+            <Route path="/feeding" element={<AdminGuard><FeedingRoutine /></AdminGuard>} />
+            <Route path="/vet-appointment" element={<UserGuard><AppointmentForm /></UserGuard>} />
             {/* <Route path="/livestock" element={<LivestockPage />} /> */}
             <Route path="*" element={<Error/>}></Route>
-            <Route path="/profile" element={<AuthGuard><Profile/></AuthGuard>}></Route>
           </Routes>
         </div>
       </Router>
