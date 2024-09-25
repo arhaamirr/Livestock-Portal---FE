@@ -72,7 +72,7 @@ const LoginPage = () => {
                       <input type="password" id="password" className="form-control" value={password}
                         onChange={(e) => setPassword(e.target.value)} required />
                     </div>
-                    <button onClick={()=>setRole("admin")} type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary mt-3 col-12 text-dark">
+                    <button onClick={()=> setRole("admin")} type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary mt-3 col-12 text-dark">
                       Login as Admin
                     </button>
                     <div className="form-check d-flex justify-content-center">
@@ -80,9 +80,19 @@ const LoginPage = () => {
                         or
                       </label>
                     </div>
-                    <button onClick={()=>setRole("user")} type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary mb-5 col-12 text-dark">
+                    <button onClick={()=> setRole("user")} type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary mb-5 col-12 text-dark">
                       Login as User
                     </button>
+                    <div className="form-check d-flex justify-content-center">
+                      <label className="form-check-label">
+                          Forgot Password? &nbsp; 
+                          <a 
+                            style={{cursor: "pointer", color: "blue"}}
+                            onClick={() => navigate(`/forget-password/${email}`)}>
+                            Click Here
+                          </a>
+                      </label>
+                  </div>
                   </form>
                 </div>
               </div>

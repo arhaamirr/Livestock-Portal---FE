@@ -17,6 +17,7 @@ import AdminGuard from './guards/AdminGuard';
 import AuthGuard from './guards/AuthGuard';
 import AppointmentForm from './components/vetAppointment';
 import UserGuard from './guards/UserGuard';
+import ForgetPassword from './components/forgetPassword';
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
             <Route className="col-lg-12" path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/forget-password/:email" element={<ForgetPassword />} />
             <Route className="col-lg-12" path="/dashboard" element={<AuthGuard><Dashboard /></AuthGuard>} />
             <Route path="/profile" element={<AuthGuard><Profile/></AuthGuard>}></Route>
             <Route path="/resource-management" element={<AdminGuard><ResourceManagement /></AdminGuard>} />

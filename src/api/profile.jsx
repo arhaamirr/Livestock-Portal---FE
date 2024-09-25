@@ -31,3 +31,13 @@ const api = axios.create({
         throw error;
     }
   }
+
+  export const updatePassword = async (user) => {
+    try {
+        const response = await api.patch('/users/forget-password', user);
+        return response.data;
+    } catch(error) {
+        console.error("Error updating password", error);
+        throw error;
+    }
+  }

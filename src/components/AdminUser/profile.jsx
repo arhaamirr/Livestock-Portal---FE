@@ -40,7 +40,6 @@ const Profile = () => {
     const handleUpdateUser = async () => {
         try {
             const updatedUser = await updateUser(user);
-            console.log(updatedUser, "udpae")
             if(updatedUser.updated == 1) {
                 updateLocalUser(updatedUser?.name, updatedUser?.email);
                 toast.success(updatedUser.message)
