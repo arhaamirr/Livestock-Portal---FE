@@ -6,14 +6,17 @@ import { fetchUser, updateUser } from '../../api/profile';
 import { getRole, updateLocalUser } from '../../service/roles';
 import "../../css/profile.css";
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
     const [user, setUser] = useState(null);
+    const [role, setRole] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchedUser = getUser();
         setUser(fetchedUser);  // Set initial user
-    
+        setRole(getRole());
         if (fetchedUser) {
             const fetchUserData = async () => {
                 try {
@@ -84,8 +87,10 @@ const Profile = () => {
                             <div className="col-md-12 mt-4"><label className="labels">Email ID</label>
                             <input type="text" className="form-control mt-1" placeholder="Enter email id" name="email" value={user?.email} disabled/></div>
                         </div>
-                        <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="button" onClick={()=> handleUpdateUser()}>Save Profile</button></div>
-                        {/* <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="button" onClick={}>Change Password</button></div> */}
+                        <div className='row'>
+                            <div className="mt-5 text-center col-4"><button className="btn btn-primary profile-button" type="button" onClick={()=> handleUpdateUser()}>Save Profile</button></div>
+                            <div className="mt-5 text-center col-4"><button className="btn btn-primary profile-button" type="button" onClick={()=>navigate(`/forget-password/${user.email}`)}>Change Password</button></div>
+                        </div>
                     </div>
                 </div>
             </div>
