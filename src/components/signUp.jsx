@@ -18,6 +18,26 @@ const SignUpPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (name.length < 3) {
+      toast.error("Username must be at least 3 characters long");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+    
+    if (!/[A-Z]/.test(password)) {
+      toast.error("Password must contain at least one capital letter");
+      return;
+    }
+
+    if (!/^\d{11}$/.test(phone)) {
+      toast.error("Phone number must be exactly 11 digits long and contain only numbers");
+      return;
+    }
+
     try {
       const response = await axios.post("/api/users/register", {
         name,

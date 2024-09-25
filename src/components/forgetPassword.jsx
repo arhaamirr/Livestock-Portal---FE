@@ -41,6 +41,17 @@ const ForgetPassword = () => {
         if(password != confirmPassword || !password || !confirmPassword) {
             toast.error("Passwords do not match, please re-enter");
         }
+        
+        if (password.length < 6) {
+          toast.error("Password must be at least 6 characters long");
+          return;
+        }
+          
+        if (!/[A-Z]/.test(password)) {
+          toast.error("Password must contain at least one capital letter");
+          return;
+        }
+
         else {
         const response = await updatePassword({
                 email,

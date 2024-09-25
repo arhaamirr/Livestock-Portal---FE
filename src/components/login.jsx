@@ -51,6 +51,16 @@ const LoginPage = () => {
     }
   };
 
+  const handleForgotPassword = () => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email && emailPattern.test(email)) {
+      navigate(`/forget-password/${email}`);
+    } else {
+      toast.error("Please enter a valid email address");
+    }
+  };
+
+
   return (
     <section className="container-fluid px-0 mb-5">
       <TopbarComponent />
@@ -88,7 +98,7 @@ const LoginPage = () => {
                           Forgot Password? &nbsp; 
                           <a 
                             style={{cursor: "pointer", color: "blue"}}
-                            onClick={() => navigate(`/forget-password/${email}`)}>
+                            onClick={handleForgotPassword}>
                             Click Here
                           </a>
                       </label>

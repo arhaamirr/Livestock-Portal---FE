@@ -41,7 +41,17 @@ const Profile = () => {
     };
 
     const handleUpdateUser = async () => {
-        try {
+
+        if (user.name.length < 3) {
+            toast.error("Username must be at least 3 characters long");
+            return;
+        }
+
+        if (!/^\d{11}$/.test(user.phone)) {
+            toast.error("Phone number must be exactly 11 digits long and contain only numbers");
+            return;
+        }
+        try { 
             const updatedUser = await updateUser(user);
             if(updatedUser.updated == 1) {
                 updateLocalUser(updatedUser?.name, updatedUser?.email);
