@@ -5,6 +5,7 @@ import land from "../../assets/land.svg";
 import feeding from "../../assets/feeding.svg";
 import shelter from "../../assets/shelter.svg";
 import vet from "../../assets/vet.svg";
+import dashboard from "../../assets/dashboard.svg"
 
 const DashSidebar = () => {
     const [role, setRole] = useState(null); 
@@ -15,13 +16,15 @@ const DashSidebar = () => {
     },[])
 
     const adminNavContent = [
-        { id: 1, name: "Resource Management", path: "/resource-management", svg: land},
-        { id: 2, name: "Feeding Routine", path: "/feeding", svg: feeding },
-        { id: 3, name: "Shelter and Space", path: "/shelter-space", svg: shelter },
+        { id: 1, name: "Dashboard", path: "/dashboard", svg: dashboard},
+        { id: 2, name: "Resource Management", path: "/resource-management", svg: land},
+        { id: 3, name: "Feeding Routine", path: "/feeding", svg: feeding },
+        { id: 4, name: "Shelter and Space", path: "/shelter-space", svg: shelter }
     ];
 
     const userNavContent = [
-        { id: 1, name: "Vet Appointment", path: "/vet-appointment", svg: vet },
+        { id: 1, name: "Dashboard", path: "/dashboard", svg: dashboard},
+        { id: 2, name: "Vet Appointment", path: "/vet-appointment", svg: vet }
     ];
 
     const getNavContent = () => {
