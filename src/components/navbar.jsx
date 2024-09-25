@@ -16,10 +16,10 @@ const NavbarComponent = () => {
         <Navbar.Collapse id="navbarCollapse">
           <Nav className="ms-auto p-4 p-lg-0">
             <Nav.Link href="/login" className="nav-button">
-              Log In
+              LogIn
             </Nav.Link>
             <Nav.Link href="/signup" className="nav-button">
-              Sign Up
+              SignUp
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
