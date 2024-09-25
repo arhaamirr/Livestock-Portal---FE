@@ -6,15 +6,17 @@ import TopbarComponent from "./topbar";
 import NavbarComponent from "./navbar";
 import Footer from "./footer";
 import { toast } from "react-toastify";
+import { checkEmailDomain } from "../service/roles";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState(null);
 
   const [signIn, setSignIn] = useState(true);
   const [signUp, setSignUp] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     const container = document.getElementById('container-login');
     if (container) {
@@ -30,12 +32,12 @@ const LoginPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
+      const determinedRole = checkEmailDomain(email) ? "admin" : "user";
       const response = await axios.post(`/api/users/login`, {
         email,
         password,
-        role
+        role: determinedRole
       });
       if (response.status == 200) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -82,16 +84,8 @@ const LoginPage = () => {
                       <input type="password" id="password" className="form-control" value={password}
                         onChange={(e) => setPassword(e.target.value)} required />
                     </div>
-                    <button onClick={()=> setRole("admin")} type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary mt-3 col-12 text-dark">
-                      Login as Admin
-                    </button>
-                    <div className="form-check d-flex justify-content-center">
-                      <label className="form-check-labsel">
-                        or
-                      </label>
-                    </div>
-                    <button onClick={()=> setRole("user")} type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary mb-5 col-12 text-dark">
-                      Login as User
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary mt-3 col-12 text-dark">
+                      Login
                     </button>
                     <div className="form-check d-flex justify-content-center">
                       <label className="form-check-label">

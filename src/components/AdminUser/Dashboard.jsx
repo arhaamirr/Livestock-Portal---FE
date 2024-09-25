@@ -1,7 +1,55 @@
 import DashSidebar from "./dashSidebar";
 import DashNavbar from "./dashNavbar";
+import { useEffect, useState } from "react";
+import { deleteUser, getAllUsers } from "../../api/feedingRoutineApi";
+import { formatDate } from "../../util/getFormatedDateAndTIme";
+import { toast } from "react-toastify";
+import expand from "../../assets/expand.svg"
 
 const Dashboard = () => {
+    const [users, setUsers] = useState(null);
+    const [user, setUser] = useState("user");
+
+    const cards = [
+        { id: 1, name: "Total Users", svg: expand},
+        { id: 2, name: "Total Admins", svg: expand},
+        { id: 3, name: "Total Doctors", svg: expand }
+    ];
+
+    useEffect(() => {
+        let isMounted = true;
+        const fetchAllUsers = async () => {
+            try {
+                const fetchedUsers = await getAllUsers(user);
+                setUsers(fetchedUsers);
+            } catch (error) {
+                console.error("Error fetching users");
+            }
+        };
+        fetchAllUsers();
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    const handleDelete = async (userId) => {
+        if (window.confirm("Are you sure you want to delete this user?")) {
+            try {
+                const response = await deleteUser(userId);
+                if (response.status === 200) {
+                    toast.success("User deleted successfully");
+                    setUsers(users.filter(user => user._id !== userId));
+                } else {
+                    toast.error("Failed to delete user");
+                }
+            } catch (error) {
+                console.error("Error deleting user:", error);
+                toast.error("Error occurred while deleting user");
+            }
+        }
+    };
+    
+
     return (
         <div className="wrapper">
             <DashSidebar></DashSidebar>
@@ -11,6 +59,7 @@ const Dashboard = () => {
                     <div className="container-fluid">
                         <div className="page-inner">
                             <div className="row">
+                            {cards.map((link) => (
                                 <div className="col-sm-6 col-md-3 col-lg-4">
                                     <div className="card card-stats card-round">
                                         <div className="card-body">
@@ -24,7 +73,7 @@ const Dashboard = () => {
                                                 </div>
                                                 <div className="col col-stats ms-3 ms-sm-0">
                                                     <div className="numbers">
-                                                        <p className="card-category">Total Admins</p>
+                                                        <p className="card-category">{link.name}</p>
                                                         <h4 className="card-title">1,294</h4>
                                                     </div>
                                                 </div>
@@ -32,48 +81,7 @@ const Dashboard = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-sm-6 col-md-3 col-lg-4">
-                                    <div className="card card-stats card-round">
-                                        <div className="card-body">
-                                            <div className="row align-items-center">
-                                                <div className="col-icon">
-                                                    <div
-                                                        className="icon-big text-center icon-info bubble-shadow-small"
-                                                    >
-                                                        <i className="fas fa-user-check"></i>
-                                                    </div>
-                                                </div>
-                                                <div className="col col-stats ms-3 ms-sm-0">
-                                                    <div className="numbers">
-                                                        <p className="card-category">Total Users</p>
-                                                        <h4 className="card-title">1303</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-sm-6 col-md-3 col-lg-4">
-                                    <div className="card card-stats card-round">
-                                        <div className="card-body">
-                                            <div className="row align-items-center">
-                                                <div className="col-icon">
-                                                    <div
-                                                        className="icon-big text-center icon-success bubble-shadow-small"
-                                                    >
-                                                        <i className="fas fa-luggage-cart"></i>
-                                                    </div>
-                                                </div>
-                                                <div className="col col-stats ms-3 ms-sm-0">
-                                                    <div className="numbers">
-                                                        <p className="card-category">Total Doctors</p>
-                                                        <h4 className="card-title">1,345</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                             ))}
                             </div>
                             <div className="row">
                                 <div className="col-md-12">
@@ -81,20 +89,6 @@ const Dashboard = () => {
                                         <div className="card-header">
                                             <div className="card-head-row card-tools-still-right">
                                                 <div className="card-title">Users</div>
-                                                <div className="card-tools">
-                                                    <div className="dropdown">
-                                                        <button
-                                                            className="btn btn-icon btn-clean me-0"
-                                                            type="button"
-                                                            id="dropdownMenuButton"
-                                                            data-bs-toggle="dropdown"
-                                                            aria-haspopup="true"
-                                                            aria-expanded="false"
-                                                        >
-                                                            <i className="fas fa-ellipsis-h"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                         <div className="card-body p-0">
@@ -106,24 +100,34 @@ const Dashboard = () => {
                                                             <th scope="col">Email</th>
                                                             <th scope="col">Appointments Booked</th>
                                                             <th scope="col">Joined On</th>
+                                                            <th scope="col">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <th scope="row">
-                                                                <button
-                                                                    className="btn btn-icon btn-round btn-success btn-sm me-2"
-                                                                >
-                                                                    <i className="fa fa-check"></i>
-                                                                </button>
-                                                                Payment from #10231
-                                                            </th>
-                                                            <td>Mar 19, 2020, 2.45pm</td>
-                                                            <td>$250.00</td>
-                                                            <td>
-                                                                <span className="badge badge-success">Completed</span>
-                                                            </td>
-                                                        </tr>
+                                                        {users && users.length > 0 ? (
+                                                            users.map((user, index) => (
+                                                                <tr key={index}>
+                                                                    <th scope="row">
+                                                                        {user.name}
+                                                                    </th>
+                                                                    <td>{user.email}</td>
+                                                                    <td>0</td>
+                                                                    <td>{formatDate(user.created_at)}</td>
+                                                                    <td>
+                                                                        <button
+                                                                            className="btn btn-danger btn-sm"
+                                                                            onClick={() => handleDelete(user._id)} // Delete function
+                                                                        >
+                                                                            Delete
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            ))
+                                                        ) : (
+                                                            <tr>
+                                                                <td colSpan="4">No users found</td>
+                                                            </tr>
+                                                        )}
                                                     </tbody>
                                                 </table>
                                             </div>

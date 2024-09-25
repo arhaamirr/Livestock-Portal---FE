@@ -9,7 +9,7 @@ import { updatePassword } from "../api/profile";
 import { isAuthenticated } from "../service/roles";
 import DashNavbar from "./AdminUser/dashNavbar";
 import DashSidebar from "./AdminUser/dashSidebar";
-import { getRole } from "../service/roles";
+import { checkEmailDomain } from "../service/roles";
 
 const ForgetPassword = () => {
   const {email} = useParams();
@@ -23,25 +23,17 @@ const ForgetPassword = () => {
   }, []);
 
   useEffect(()=>{
-    if (authenticated) {
-        setRole(getRole());
-      } else {
-        setRole("admin");
-      }
+    setRole(checkEmailDomain(email) ? "admin" : "user");
   }, [authenticated])
-
-
-  const handleRole = (event) => {
-    setRole(event.target.value);
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
         if(password != confirmPassword || !password || !confirmPassword) {
-            toast.error("Passwords do not match, please re-enter");
+         toast.error("Passwords do not match, please re-enter");
+         return
         }
-        
+
         if (password.length < 6) {
           toast.error("Password must be at least 6 characters long");
           return;
@@ -81,20 +73,6 @@ const ForgetPassword = () => {
               <div className="card">
                 <div className="card-body py-5 px-md-5">
                   <form onSubmit={handleSubmit}>
-                    {!authenticated &&
-                    <div data-mdb-input-init className="form-outline mb-4">
-                    <label className="form-label" htmlFor="role">Select Role</label>
-                    <select 
-                        value={selectedRole} 
-                        onChange={handleRole} 
-                        className="form-control" 
-                        disabled={authenticated}
-                        >
-                        <option value="admin">Admin</option>
-                        <option value="user">User</option>
-                        <option value="doctor">Doctor</option>
-                    </select>
-                    </div>}
                     <div data-mdb-input-init className="form-outline mb-4">
                       <label className="form-label" htmlFor="password">Password</label>
                       <input type="password" id="password" className="form-control" value={password}

@@ -85,10 +85,27 @@ export const getFeedingRoutineById = async (id) => {
 export const getShelters = async () => {
   try {
     const response = await api.get('/shelters');
-    console.log(response, "resp")
     return response.data;
   }  catch(error) {
-    console.log("Error fetching shelters");
+    console.error("Error fetching shelters");
     throw error;
+  }
+}
+
+export const getAllUsers = async (role) => {
+  try {
+    const response = await api.get(`/users/${role}`);
+    return response.data.user;
+  } catch(error) {
+    console.log("Error fetching all users");
+  }
+}
+
+export const deleteUser = async (id) => {
+  try {
+    const response = await api.delete(`/users/${id}`);
+    return response;
+  } catch(error) {
+    console.log("Error deleting a user")
   }
 }

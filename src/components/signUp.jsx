@@ -6,6 +6,7 @@ import NavbarComponent from "./navbar";
 import Footer from "./footer";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { checkEmailDomain } from "../service/roles";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
@@ -39,12 +40,13 @@ const SignUpPage = () => {
     }
 
     try {
+      const determinedRole = checkEmailDomain(email) ? "admin" : "user";
       const response = await axios.post("/api/users/register", {
         name,
         email,
         password,
         phone,
-        role
+        role: determinedRole
       });
 
       if (response.status == 200) {
@@ -109,16 +111,8 @@ const SignUpPage = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)} required />
                     </div>
-                    <button onClick={()=> setRole("admin")} type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary col-12 text-dark">
-                      Sign up as Admin
-                    </button>
-                    <div className="form-check d-flex justify-content-center">
-                      <label className="form-check-labsel">
-                        or
-                      </label>
-                    </div>
-                    <button onClick={()=> setRole("user")} type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary mb-5 col-12 text-dark">
-                      Sign up as User
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary mt-4 col-12 text-dark">
+                      Sign up
                     </button>
                   </form>
                 </div>

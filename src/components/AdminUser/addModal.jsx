@@ -1,38 +1,57 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { getShelters } from "../../api/feedingRoutineApi";
+import { createResourceManagment, editResourceManagment, getResourceById } from "../../api/resourceManagmentApi";
 
-function AddModal({ handleIsOpen, isOpen }) {
+function AddModal({ handleIsOpen, isOpen, resourceId }) {
   const [data, setData] = useState({
-    resource: null,
-    land: null,
+    land_id: null,
     feed: null,
     labor: null,
   });
 
   const [shelters, setShelters] = useState([]);
+  const [isEdit, setIsEdit] = useState(false);
+
+  const getResourceAgainstId = async () =>{
+    try{
+      const resp = await getResourceById(resourceId);
+      setData({
+        land_id: resp?.land_id?._id ,
+        feed: resp?.feed ,
+        labor: resp?.labor ,
+      });
+    }catch(err){
+      console.error(err);
+    }
+  }
 
   useEffect(()=>{
-    initializeShelters();
+    if(resourceId){
+      setIsEdit(true);
+      initializeShelters();
+      getResourceAgainstId();
+    }else{
+      setIsEdit(false);
+      initializeShelters();
+    }
   },[])
 
   const initializeShelters = async () => {
     try {
       const resp = await getShelters();
       setShelters(resp);
-      console.log(resp,"resp")
     } catch(error) {
-
+      console.error(error);
+      toast.error("Something went wrong !!");
     }
   }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(value, "value");
     setData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -40,11 +59,27 @@ function AddModal({ handleIsOpen, isOpen }) {
   };
 
   const handleSubmitData = async () => {
-    console.log(data);
+    data.user_id='66f40685940969f6344a0ede';
     try {
-      const response = await addResource(data);
+      if( isEdit && resourceId){
+        const res = await editResourceManagment(resourceId, data);
+        if(res){
+          handleIsOpen();
+          setIsEdit(false)
+          toast.success("Data edit successfully!");
+        
+        }
+      }
+      else{
+        const response = await createResourceManagment(data);
+        if(response){
+          handleIsOpen();
+          toast.success("Resource Added Successfully !!");
+        }
+      }
+
     } catch (e) {
-      console.log(e);
+      console.error(e);
       toast.error("Something went wrong !!");
     }
   };
@@ -68,14 +103,14 @@ function AddModal({ handleIsOpen, isOpen }) {
               <Form.Select
                 aria-label="Default select example"
                 onChange={(e) => handleChange(e)}
-                value={data.land}
-                name="land"
+                value={data.land_id}
+                name="land_id"
               >
                 <option value="" disabled>
                     Choose Land
                 </option>
                 {shelters?.map((sh) => (
-                    <option value={sh?._id}>{sh?.name}</option>
+                    <option key={`${sh?._id} + ${sh?.name}`} value={sh?._id}>{sh?.name}</option>
                 ))}
               </Form.Select>
               <Form.Label className="mt-1">Feed</Form.Label>
@@ -102,7 +137,7 @@ function AddModal({ handleIsOpen, isOpen }) {
             Close
           </Button>
           <Button variant="primary" onClick={handleSubmitData}>
-            Save Changes
+            {isEdit ? "Edit Resource" : "Save Resource"}
           </Button>
         </Modal.Footer>
       </Modal>
