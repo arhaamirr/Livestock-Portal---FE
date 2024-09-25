@@ -83,7 +83,7 @@ const FeedingRoutine = () => {
         </div>
       </div>
 
-      <button className="floating-button" onClick={handleIsOPen}>
+      <button className="floating-button" onClick={()=>{handleIsOPen(null)}} >
         +
       </button>
     </div>

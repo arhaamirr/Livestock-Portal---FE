@@ -8,7 +8,7 @@ import { getResources } from "../../api/feedingRoutineApi";
 const ResourceManagement = () => {
 
   const [isOpen, setIsOpen] = useState(false);
-  const [resourceId, setResourceId] = useState();
+  const [resourceId, setResourceId] = useState(null);
   const [data, setData] = useState([]);
 
   const handleIsOpen = ( id = null) => {
@@ -17,13 +17,12 @@ const ResourceManagement = () => {
   };
   useEffect(()=>{
     fetchResources();
-  }, [])
+  }, [isOpen])
 
   const fetchResources = async () =>{
     try
     {
         const resources = await getResources();
-        console.log(resources, "resources")
         setData(resources)
     } catch(e){
         console.error(e);
@@ -85,7 +84,7 @@ const ResourceManagement = () => {
         </div>
       </div>
 
-      <button className="floating-button" onClick={handleIsOpen}>
+      <button className="floating-button" onClick={()=>{handleIsOpen(null)}}>
         +
       </button>
     </div>
