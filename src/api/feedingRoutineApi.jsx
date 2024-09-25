@@ -91,3 +91,21 @@ export const getShelters = async () => {
     throw error;
   }
 }
+
+export const getAllUsers = async (role) => {
+  try {
+    const response = await api.get(`/users/${role}`);
+    return response.data.user;
+  } catch(error) {
+    console.log("Error fetching all users");
+  }
+}
+
+export const deleteUser = async (id) => {
+  try {
+    const response = await api.delete(`/users/${id}`);
+    return response;
+  } catch(error) {
+    console.log("Error deleting a user")
+  }
+}

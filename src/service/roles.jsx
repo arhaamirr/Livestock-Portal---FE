@@ -21,3 +21,9 @@ export const handleLogout = (navigate) => {
     localStorage.removeItem("user");
     navigate('/'); 
 };
+
+
+export const checkEmailDomain = (email) => {
+    const domainPattern = /@herhub\.com$/;
+    return domainPattern.test(email);
+  };
