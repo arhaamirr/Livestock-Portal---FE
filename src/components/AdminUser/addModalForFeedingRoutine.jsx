@@ -84,9 +84,8 @@ function AddModalForFeedingRoutine({ handleIsOPen, isOpen, feedingRoutineId }) {
   const handleSubmitData = async () => {
     data.user_id="66ec27489e7fcfc83dc16656"
     try {
-      console.log(isEdit,feedingRoutineId,"isEditisEdit")
       if(isEdit){
-        const response = await editFeedingRoutine(feedingRoutineId,data);
+        const response = await editFeedingRoutine(feedingRoutineId, data);
         if(response){
           handleIsOPen();
           setIsEdit(false)

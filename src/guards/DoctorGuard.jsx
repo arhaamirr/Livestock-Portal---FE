@@ -2,9 +2,9 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { getRole, isAuthenticated } from '../service/roles';
 
-const UserGuard = ({ children }) => {
+const DoctorGuard = ({ children }) => {
 
-  if (isAuthenticated() && (getRole() == 'admin' || getRole() == 'doctor')) {
+  if (isAuthenticated() && (getRole() == 'admin' || getRole() == 'user')) {
     return <Navigate to="/error" />;
   }
   else if (!isAuthenticated()) {
@@ -13,4 +13,4 @@ const UserGuard = ({ children }) => {
   return children;
 };
 
-export default UserGuard;
+export default DoctorGuard;

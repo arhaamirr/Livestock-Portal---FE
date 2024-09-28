@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getRole } from "../../service/roles";
 import land from "../../assets/land.svg";
 import feeding from "../../assets/feeding.svg";
+import doctors from "../../assets/doctors.svg"
 import shelter from "../../assets/shelter.svg";
 import vet from "../../assets/vet.svg";
 import dashboard from "../../assets/dashboard.svg"
@@ -27,6 +28,12 @@ const DashSidebar = () => {
         { id: 2, name: "Vet Appointment", path: "/vet-appointment", svg: vet }
     ];
 
+    const doctorNavContent = [
+        { id: 1, name: "Dashboard", path: "/dashboard", svg: dashboard},
+        { id: 2, name: "Schedule Timeslot", path: "/timeslot-day", svg: vet },
+        { id: 3, name: "Schedule Timeslot", path: "/timeslot-recursive", svg: vet }
+    ]
+
     const getNavContent = () => {
         switch (role) {
             case 'admin':
@@ -34,7 +41,7 @@ const DashSidebar = () => {
             case 'user':
                 return userNavContent;
             default:
-                return userNavContent
+                return doctorNavContent
         }
     };
 
@@ -69,7 +76,7 @@ const DashSidebar = () => {
             <div className="sidebar-wrapper scrollbar scrollbar-inner">
                 <div className="sidebar-content">
                     <ul className="nav nav-secondary">
-                        {navContent.map((link) => (
+                        {role && navContent.map((link) => (
                             <li className="nav-item" key={link.id} style={{ cursor: "pointer" }}>
                                 <a onClick={() => navigate(link.path)}>
                                     <i className="fas"><img src={link.svg}></img></i>

@@ -5,10 +5,11 @@ import "../../../src/css/addButton.css";
 import AddModalForFeedingRoutine from "./addModalForFeedingRoutine";
 import { getFeedingRoutines } from "../../api/feedingRoutineApi";
 import { formatDate } from "../../util/getFormatedDateAndTIme";
+import feedRoutine from "../../assets/feed-routine.svg"
 
 const FeedingRoutine = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [feedingRoutineId, setFeedingRoutineId]=useState();
+  const [feedingRoutineId, setFeedingRoutineId] = useState();
   const [data, setData] = useState([]);
   
   const handleIsOPen = ( id = null) => {
@@ -47,7 +48,7 @@ const FeedingRoutine = () => {
                   <div className="row align-items-center">
                     <div className="col-icon">
                       <div className="icon-big text-center icon-primary bubble-shadow-small">
-                        <i className="fas fa-users"></i>
+                        <img src={feedRoutine}></img>
                       </div>
                     </div>
                     <div className="col col-stats ms-3 ms-sm-0">

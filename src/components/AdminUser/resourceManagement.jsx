@@ -4,6 +4,7 @@ import DashNavbar from "./dashNavbar";
 import AddModal from "./addModal";
 import "../../../src/css/addButton.css";
 import { getResources } from "../../api/feedingRoutineApi";
+import resource from "../../assets/agriculture.svg"
 
 const ResourceManagement = () => {
 
@@ -47,7 +48,7 @@ const ResourceManagement = () => {
                   <div className="row align-items-center">
                     <div className="col-icon">
                       <div className="icon-big text-center icon-primary bubble-shadow-small">
-                        <i className="fas fa-users"></i>
+                        <img src={resource}></img>
                       </div>
                     </div>
                     <div className="col col-stats ms-3 ms-sm-0">

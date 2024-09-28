@@ -33,7 +33,8 @@ const LoginPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const determinedRole = checkEmailDomain(email) ? "admin" : "user";
+      const determinedRole = checkEmailDomain(email);
+      if(determinedRole == "none") {throw new Error("Invalid email domain provided")};
       const response = await axios.post(`/api/users/login`, {
         email,
         password,
@@ -49,7 +50,7 @@ const LoginPage = () => {
         toast.warn(`${response.data.message || "Login failed"}`)
       }
     } catch (error) {
-        toast.error("Error login")
+        toast.error(error.message || "Error login")
     }
   };
 
