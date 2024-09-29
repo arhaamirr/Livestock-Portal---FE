@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getRole } from "../../service/roles";
 import land from "../../assets/land.svg";
 import feeding from "../../assets/feeding.svg";
-import doctors from "../../assets/doctors.svg"
 import shelter from "../../assets/shelter.svg";
 import vet from "../../assets/vet.svg";
 import dashboard from "../../assets/dashboard.svg"

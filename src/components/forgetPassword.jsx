@@ -25,7 +25,7 @@ const ForgetPassword = () => {
   useEffect(()=>{
     const determinedRole = checkEmailDomain(email);
     try {
-        if(determinedRole == "none") {throw new Error("Invalid email domain provided")};
+        if(determinedRole == "none") {throw new Error("Invalid email domain provided")}
         setRole(determinedRole);
     }
     catch(error) {

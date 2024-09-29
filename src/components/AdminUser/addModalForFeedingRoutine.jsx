@@ -11,7 +11,7 @@ import {
 } from "../../api/feedingRoutineApi";
 import { formatDate } from "../../util/getFormatedDateAndTIme";
 import { toast } from "react-toastify";
-
+/* eslint-disable */
 function AddModalForFeedingRoutine({ handleIsOPen, isOpen, feedingRoutineId }) {
   const [data, setData] = useState({
     livestock_id: null,

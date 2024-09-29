@@ -13,7 +13,6 @@ const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -41,7 +40,7 @@ const SignUpPage = () => {
 
     try {
       const determinedRole = checkEmailDomain(email);
-      if(determinedRole == "none") {throw new Error("Invalid email domain provided")};
+      if(determinedRole == "none") {throw new Error("Invalid email domain provided")}
       const response = await axios.post("/api/users/register", {
         name,
         email,
