@@ -109,3 +109,12 @@ export const deleteUser = async (id) => {
     console.log("Error deleting a user")
   }
 }
+
+export const getAllUsersCount = async () => {
+  try {
+    const response = await api.get("/users/count");
+    return response;
+  } catch(error) {
+    console.log("Error fetching all users count")
+  }
+}

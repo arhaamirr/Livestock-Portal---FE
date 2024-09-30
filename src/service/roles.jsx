@@ -24,6 +24,17 @@ export const handleLogout = (navigate) => {
 
 
 export const checkEmailDomain = (email) => {
-    const domainPattern = /@herhub\.com$/;
-    return domainPattern.test(email);
-  };
+    const doctorPattern = /@doctor\.herhub\.com$/;
+    const adminPattern = /@herhub\.com$/;
+    const userPattern = /@(gmail\.com|yahoo\.com|outlook\.com)$/;
+
+    if (doctorPattern.test(email)) {
+        return "doctor";
+    } else if (adminPattern.test(email) && !doctorPattern.test(email)) {
+        return "admin";
+    } else if (userPattern.test(email)) {
+        return "user";
+    } else {
+        return "none";
+    }
+};

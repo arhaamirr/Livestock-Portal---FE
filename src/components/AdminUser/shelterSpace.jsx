@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import DashSidebar from "./dashSidebar";
 import DashNavbar from "./dashNavbar";
-import AddModal from "./addModal";
 import "../../../src/css/addButton.css";
-import { getResources } from "../../api/feedingRoutineApi";
 import resource from "../../assets/agriculture.svg"
+import AddShelterSpaceModal from "./addShelterSpaceModal";
+import { getShelterSpace } from "../../api/shelterSpaceApi";
 
-const ResourceManagement = () => {
+const ShelterSpace = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [resourceId, setResourceId] = useState(null);
@@ -17,14 +17,14 @@ const ResourceManagement = () => {
     setIsOpen((prev) => !prev);
   };
   useEffect(()=>{
-    fetchResources();
+    fetchSelterSpace();
   }, [isOpen])
 
-  const fetchResources = async () =>{
+  const fetchSelterSpace = async () =>{
     try
     {
-        const resources = await getResources();
-        setData(resources)
+        const shelterSpace = await getShelterSpace();
+        setData(shelterSpace)
     } catch(e){
         console.error(e);
     }
@@ -34,7 +34,7 @@ const ResourceManagement = () => {
     <div className="wrapper">
       <DashSidebar></DashSidebar>
       <DashNavbar></DashNavbar>
-      {isOpen && <AddModal isOpen={isOpen}  handleIsOpen={handleIsOpen} resourceId={resourceId}/> }
+      {isOpen && <AddShelterSpaceModal isOpen={isOpen}  handleIsOpen={handleIsOpen} resourceId={resourceId}/> }
       <div className="main-panel mt-5">
         <div className="row align-content-center align-items-center justify-content-evenly">
           {data && data.length > 0 ? (
@@ -53,11 +53,14 @@ const ResourceManagement = () => {
                     </div>
                     <div className="col col-stats ms-3 ms-sm-0">
                       <div className="numbers">
-                      <p className="card-category"> <b>Land Name:</b> {res?.land_id?.name}</p>
-                      <p className="card-category"> <b>Location:</b> {res?.land_id?.location}</p>
-                      <p className="card-category"> <b>Capacity:</b> {res?.land_id?.capacity}</p>
-                      <p className="card-category"> <b>Feed:</b> {res?.feed}</p>
-                      <p className="card-category"> <b>Labor:</b> {res?.labor}</p>
+                      <p className="card-category"> <b>LiveStock:</b> {res?.livestock_id?.type}</p>
+                      <p className="card-category"> <b>Size in kg/lb:</b> {res?.size_in_kg}</p>
+                      <p className="card-category"> <b>Ventilation:</b> {res?.ventilation}</p>
+                      <p className="card-category"> <b>Animal Quantity:</b> {res?.animal_quantity}</p>
+                      <p className="card-category"> <b>Available Shelter:</b> {res?.available_shelter}</p>
+                      <p className="card-category"> <b>Shelter Type:</b> {res?.shelter_type}</p>
+                      <p className="card-category"> <b>Resting Area:</b> {res?.resting_area}</p>
+                      <p className="card-category"> <b>Available Shelter:</b> {res?.available_shelter}</p>
                       </div>
                     </div>
                     <div className="col-icon">
@@ -92,4 +95,4 @@ const ResourceManagement = () => {
   );
 };
 
-export default ResourceManagement;
+export default ShelterSpace;

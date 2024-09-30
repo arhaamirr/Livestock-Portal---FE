@@ -18,6 +18,9 @@ import AuthGuard from './guards/AuthGuard';
 import AppointmentForm from './components/vetAppointment';
 import UserGuard from './guards/UserGuard';
 import ForgetPassword from './components/forgetPassword';
+import AvailableSlotForm from './components/AdminUser/scheduleTimeslot';
+import DoctorGuard from './guards/DoctorGuard';
+import ShelterSpace from './components/AdminUser/shelterSpace';
 
 const App = () => {
   return (
@@ -35,6 +38,13 @@ const App = () => {
             <Route path="/resource-management" element={<AdminGuard><ResourceManagement /></AdminGuard>} />
             <Route path="/feeding" element={<AdminGuard><FeedingRoutine /></AdminGuard>} />
             <Route path="/vet-appointment" element={<UserGuard><AppointmentForm /></UserGuard>} />
+            <Route path="/timeslot-day" element={<DoctorGuard><AvailableSlotForm /></DoctorGuard>} />
+            <Route path="/timeslot-recursive" element={<DoctorGuard><AvailableSlotForm /></DoctorGuard>} />
+
+            <Route path="/shelter-space" element={<ShelterSpace />} />
+
+            
+            
             {/* <Route path="/livestock" element={<LivestockPage />} /> */}
             <Route path="*" element={<Error/>}></Route>
           </Routes>

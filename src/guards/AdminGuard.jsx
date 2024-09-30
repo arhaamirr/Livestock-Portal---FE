@@ -4,7 +4,7 @@ import { getRole, isAuthenticated } from '../service/roles';
 
 const AdminGuard = ({ children }) => {
 
-  if (isAuthenticated() && getRole() == 'user') {
+  if (isAuthenticated() && (getRole() == 'user' || getRole() == 'doctor')) {
     return <Navigate to="/error" />;
   }
   else if (!isAuthenticated()) {

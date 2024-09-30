@@ -23,7 +23,15 @@ const ForgetPassword = () => {
   }, []);
 
   useEffect(()=>{
-    setRole(checkEmailDomain(email) ? "admin" : "user");
+    const determinedRole = checkEmailDomain(email);
+    try {
+        if(determinedRole == "none") {throw new Error("Invalid email domain provided")}
+        setRole(determinedRole);
+    }
+    catch(error) {
+        toast.error(error.message || "Failed to change password. Please try again.");
+    }
+
   }, [authenticated])
 
   const handleSubmit = async (event) => {

@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { getShelters } from "../../api/feedingRoutineApi";
 import { createResourceManagment, editResourceManagment, getResourceById } from "../../api/resourceManagmentApi";
-
+/* eslint-disable */
 function AddModal({ handleIsOpen, isOpen, resourceId }) {
   const [data, setData] = useState({
     land_id: null,
