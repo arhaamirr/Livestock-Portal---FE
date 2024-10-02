@@ -54,7 +54,7 @@ const Profile = () => {
         try { 
             const updatedUser = await updateUser(user);
             if(updatedUser.updated == 1) {
-                updateLocalUser(updatedUser?.name, updatedUser?.email);
+                updateLocalUser(updatedUser?.name, updatedUser?.email, updatedUser?.id);
                 toast.success(updatedUser.message)
             }
             else {

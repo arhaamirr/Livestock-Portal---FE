@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getRole } from "../../service/roles";
 import AdminDashboard from "./adminDashboard";
 import DoctorDashboard from "./doctorDashboard";
+import UserDashboard from "./userDashboard";
 
 const Dashboard = () => {
     const [role, setRole] = useState(null);
@@ -20,6 +21,7 @@ const Dashboard = () => {
                     <div className="container-fluid">
                         <div className="page-inner">
                             {role == "admin" && <AdminDashboard></AdminDashboard>}
+                            {role == "user" && <UserDashboard></UserDashboard>}
                             {role == "doctor" && <DoctorDashboard></DoctorDashboard>}
                         </div>
                     </div>

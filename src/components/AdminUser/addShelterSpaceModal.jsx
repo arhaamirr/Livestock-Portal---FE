@@ -5,7 +5,8 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { getLiveStocks } from "../../api/feedingRoutineApi";
 import { createShelterSpace, editShelterSpace, getShelterSpaceById } from "../../api/shelterSpaceApi";
-/* eslint-disable */
+import { getUserId } from "../../service/roles";
+
 function AddShelterSpaceModal({ handleIsOpen, isOpen, resourceId }) {
   const [data, setData] = useState({
     livestock_id: null,
@@ -18,43 +19,43 @@ function AddShelterSpaceModal({ handleIsOpen, isOpen, resourceId }) {
   });
 
   const [isEdit, setIsEdit] = useState(false);
-  const [livestock, setLiveStock] =useState();
+  const [livestock, setLiveStock] = useState();
 
-  const getResourceAgainstId = async () =>{
-    try{
+  const getResourceAgainstId = async () => {
+    try {
       const resp = await getShelterSpaceById(resourceId);
       setData({
-        livestock_id: resp?.livestock_id?._id ,
-        animal_quantity: resp?.animal_quantity ,
+        livestock_id: resp?.livestock_id?._id,
+        animal_quantity: resp?.animal_quantity,
         size_in_kg: resp?.size_in_kg,
         shelter_type: resp?.shelter_type,
         available_shelter: resp?.available_shelter,
         resting_area: resp?.resting_area,
       });
-    }catch(err){
+    } catch (err) {
       console.error(err);
     }
   }
 
-  useEffect(()=>{
-    if(resourceId){
+  useEffect(() => {
+    if (resourceId) {
       setIsEdit(true);
       getLiveStocksList();
       getResourceAgainstId();
-    }else{
+    } else {
       setIsEdit(false);
       getLiveStocksList()
     }
-  },[])
+  }, [])
 
 
-  const getLiveStocksList = async()=>{
+  const getLiveStocksList = async () => {
     try {
-        const resp = await getLiveStocks();
-        setLiveStock(resp);
-      } catch (err) {
-        console.error(err);
-      }
+      const resp = await getLiveStocks();
+      setLiveStock(resp);
+    } catch (err) {
+      console.error(err);
+    }
 
   }
   const handleChange = (e) => {
@@ -66,22 +67,21 @@ function AddShelterSpaceModal({ handleIsOpen, isOpen, resourceId }) {
   };
 
   const handleSubmitData = async () => {
-    data.user_id='66f40685940969f6344a0ede';
-    data.ventilation='window'
+    data.user_id = getUserId();
+    data.ventilation = 'window';
     try {
-      if( isEdit && resourceId){
-        console.log(data,"in edit mode")
+      if (isEdit && resourceId) {
         const res = await editShelterSpace(resourceId, data);
-        if(res){
+        if (res) {
           handleIsOpen();
           setIsEdit(false)
           toast.success("Data edit successfully!");
-        
+
         }
       }
-      else{
+      else {
         const response = await createShelterSpace(data);
-        if(response){
+        if (response) {
           handleIsOpen();
           toast.success("ShelterSpace Added Successfully !!");
         }
@@ -116,18 +116,15 @@ function AddShelterSpaceModal({ handleIsOpen, isOpen, resourceId }) {
                 name="livestock_id"
               >
                 <option value="" selected>
-                    Choose Land
+                  Choose Type
                 </option>
                 {livestock?.map((liv) => (
-                    <option key={`${liv?._id} + ${liv?.type}`} value={liv?._id}>
-                      {liv?.type}
-                    </option>
-                  ))}
-                {/* {shelters?.map((sh) => (
-                    <option key={`${sh?._id} + ${sh?.name}`} value={sh?._id}>{sh?.name}</option>
-                ))} */}
-              </Form.Select>
+                  <option key={`${liv?._id} + ${liv?.type}`} value={liv?._id}>
+                    {liv?.type}
+                  </option>
+                ))}
 
+              </Form.Select>
               <Form.Label className="mt-1">Number Of Animal</Form.Label>
               <Form.Control
                 type="number"
@@ -136,7 +133,7 @@ function AddShelterSpaceModal({ handleIsOpen, isOpen, resourceId }) {
                 value={data.animal_quantity}
                 name="animal_quantity"
               />
-                 <Form.Label className="mt-1">Animal Size/Weight (in kg/lb)</Form.Label>
+              <Form.Label className="mt-1">Animal Size/Weight (in kg/lb)</Form.Label>
               <Form.Control
                 type="number"
                 autoFocus
@@ -144,7 +141,7 @@ function AddShelterSpaceModal({ handleIsOpen, isOpen, resourceId }) {
                 value={data.size_in_kg}
                 name="size_in_kg"
               />
-                  <Form.Label className="mt-1">Shlters Type</Form.Label>
+              <Form.Label className="mt-1">Shlters Type</Form.Label>
               <Form.Select
                 aria-label="Default select example"
                 onChange={(e) => handleChange(e)}
@@ -152,17 +149,14 @@ function AddShelterSpaceModal({ handleIsOpen, isOpen, resourceId }) {
                 name="shelter_type"
               >
                 <option value="" selected>
-                    Choose Shelter
+                  Choose Shelter
                 </option>
                 <option value="barn" >
-                    Barn
+                  Barn
                 </option>
                 <option value="shed" >
-                    Shed
+                  Shed
                 </option>
-                {/* {shelters?.map((sh) => (
-                    <option key={`${sh?._id} + ${sh?.name}`} value={sh?._id}>{sh?.name}</option>
-                ))} */}
               </Form.Select>
               <Form.Label className="mt-1">Avalilable Shelter Space (in meter)</Form.Label>
               <Form.Control

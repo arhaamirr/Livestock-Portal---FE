@@ -6,9 +6,13 @@ export const getUser = () => {
     return JSON.parse(localStorage.getItem("user"));
 }
 
-export const updateLocalUser = (name, email) => {
+export const getUserId = () => {
+    return JSON.parse(localStorage.getItem("user"))["id"];
+}
+
+export const updateLocalUser = (name, email, id) => {
     localStorage.removeItem("user");
-    localStorage.setItem("user", JSON.stringify({name: name, email: email}))
+    localStorage.setItem("user", JSON.stringify({name: name, email: email, id: id}))
 }
 
 export const isAuthenticated = () => {
