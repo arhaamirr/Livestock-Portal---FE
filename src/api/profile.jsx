@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getRole } from '../service/roles';
+import { getRole, getUserId } from '../service/roles';
 const BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
 const token = localStorage.getItem('token');
 const api = axios.create({
@@ -24,6 +24,8 @@ const api = axios.create({
   export const updateUser = async (user) => {
     try {
         user["role"] = getRole();
+        user["id"] = getUserId();
+        console.log(user, "user")
         const response = await api.patch('/users/update', user);
         return response.data;
     } catch(error) {

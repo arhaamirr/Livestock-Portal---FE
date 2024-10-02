@@ -60,7 +60,6 @@ const ShelterSpace = () => {
                       <p className="card-category"> <b>Available Shelter:</b> {res?.available_shelter}</p>
                       <p className="card-category"> <b>Shelter Type:</b> {res?.shelter_type}</p>
                       <p className="card-category"> <b>Resting Area:</b> {res?.resting_area}</p>
-                      <p className="card-category"> <b>Available Shelter:</b> {res?.available_shelter}</p>
                       </div>
                     </div>
                     <div className="col-icon">
