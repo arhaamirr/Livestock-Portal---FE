@@ -2,20 +2,11 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import {
-    createFeedingRoutine,
-    editFeedingRoutine,
-    getFeedingRoutineAgainstId,
-    getFeedingRoutineById,
-    getLiveStocks,
-} from "../../api/feedingRoutineApi";
-import { formatDate } from "../../util/getFormatedDateAndTIme";
 import { toast } from "react-toastify";
 import { getShelterSpace } from "../../api/shelterSpaceApi";
 import { purchaseItem } from "../../api/userDashboardApi";
 
 function PurchaseItemsModal({ handleIsOpen, isOpen, resourceId }) {
-    const [isEdit, setIsEdit] = useState(false);
     const [animals, setAnimals] = useState([]);
 
     useEffect(() => {

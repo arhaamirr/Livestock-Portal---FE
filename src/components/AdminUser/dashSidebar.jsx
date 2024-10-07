@@ -29,8 +29,7 @@ const DashSidebar = () => {
 
     const doctorNavContent = [
         { id: 1, name: "Dashboard", path: "/dashboard", svg: dashboard},
-        { id: 2, name: "Schedule Timeslot", path: "/timeslot-day", svg: vet },
-        { id: 3, name: "Schedule Timeslot", path: "/timeslot-recursive", svg: vet }
+        { id: 2, name: "Schedule Timeslot", path: "/timeslot", svg: vet }
     ]
 
     const getNavContent = () => {

@@ -16,6 +16,7 @@ const ResourceManagement = () => {
     setResourceId(id);
     setIsOpen((prev) => !prev);
   };
+  
   useEffect(()=>{
     fetchResources();
   }, [isOpen])

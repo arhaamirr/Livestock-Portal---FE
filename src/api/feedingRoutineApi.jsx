@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getUserId } from '../service/roles';
 
 const BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
@@ -43,6 +44,7 @@ export const createFeedingRoutine = async (feedingRoutine) => {
 };
 
 export const editFeedingRoutine = async (feedingRoutineId,feedingRoutine) => {
+  data["user_id"] = getUserId();
   try {
     const response = await api.put(`/feeding-routines/${feedingRoutineId}`, feedingRoutine);
     return response.data;

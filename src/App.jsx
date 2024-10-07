@@ -38,8 +38,8 @@ const App = () => {
             <Route path="/resource-management" element={<AdminGuard><ResourceManagement /></AdminGuard>} />
             <Route path="/feeding" element={<AdminGuard><FeedingRoutine /></AdminGuard>} />
             <Route path="/vet-appointment" element={<UserGuard><AppointmentForm /></UserGuard>} />
-            <Route path="/timeslot-day" element={<DoctorGuard><AvailableSlotForm /></DoctorGuard>} />
-            <Route path="/timeslot-recursive" element={<DoctorGuard><AvailableSlotForm /></DoctorGuard>} />
+            <Route path="/timeslot" element={<DoctorGuard><AvailableSlotForm /></DoctorGuard>} />
+            {/* <Route path="/timeslot-recursive" element={<DoctorGuard><AvailableSlotForm /></DoctorGuard>} /> */}
 
             <Route path="/shelter-space" element={<ShelterSpace />} />
 
