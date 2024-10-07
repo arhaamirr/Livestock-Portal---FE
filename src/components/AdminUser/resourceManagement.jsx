@@ -4,7 +4,7 @@ import DashNavbar from "./dashNavbar";
 import AddModal from "./addModal";
 import "../../../src/css/addButton.css";
 import { getResources } from "../../api/feedingRoutineApi";
-import resource from "../../assets/agriculture.svg"
+import herhub from "../../assets/herhub2.png"
 
 const ResourceManagement = () => {
 
@@ -36,41 +36,31 @@ const ResourceManagement = () => {
       <DashSidebar></DashSidebar>
       <DashNavbar></DashNavbar>
       {isOpen && <AddModal isOpen={isOpen}  handleIsOpen={handleIsOpen} resourceId={resourceId}/> }
-      <div className="main-panel mt-5">
+      <div className="main-panel mt-5 mb-5">
         <div className="row align-content-center align-items-center justify-content-evenly">
           {data && data.length > 0 ? (
             data?.map((res) => (
-              <div
-                className="col-6 card card-stats card-round"
-                style={{ width: "40%" }}
-                key={res?._id}
-              >
-                <div className="card-body">
-                  <div className="row align-items-center">
-                    <div className="col-icon">
-                      <div className="icon-big text-center icon-primary bubble-shadow-small">
-                        <img src={resource}></img>
-                      </div>
-                    </div>
-                    <div className="col col-stats ms-3 ms-sm-0">
-                      <div className="numbers">
-                      <p className="card-category"> <b>Land Name:</b> {res?.land_id?.name}</p>
-                      <p className="card-category"> <b>Location:</b> {res?.land_id?.location}</p>
-                      <p className="card-category"> <b>Capacity:</b> {res?.land_id?.capacity}</p>
-                      <p className="card-category"> <b>Feed:</b> {res?.feed}</p>
-                      <p className="card-category"> <b>Labor:</b> {res?.labor}</p>
-                      </div>
-                    </div>
-                    <div className="col-icon">
-                      <div className="icon-primary" style={{position:"relative", bottom:"20px", left:"25px", color:"green", cursor:"pointer"}} onClick={() => {handleIsOpen(res?._id)}}>
+              <div className="col-lg-3 col-md-6 pt-5 wow fadeInUp" data-wow-delay="0.5s">
+                <div className="service-item d-flex h-100">
+                  <div className="service-img">
+                    <img className="img-fluid" src={herhub} alt="" />
+                  </div>
+                  <div className="service-text p-5 pt-0">
+                    <p className="mb-1 mt-5"><b>Land Name:</b> {res?.land_id?.name}</p>
+                    <p className="mb-1"><b>Location:</b> {res?.land_id?.location}</p>
+                    <p className="mb-1"><b>Capacity:</b> {res?.land_id?.capacity}</p>
+                    <p className="mb-1"><b>Feed:</b> {res?.feed}</p>
+                    <p className="mb-1"><b>Labor:</b> {res?.labor}</p>
+                  </div>
+                  <div className="col-icon">
+                      <div className="icon-primary" style={{position:"relative", top: "20px", bottom:"20px", left:"-30px", right: "30px", color:"green", cursor:"pointer"}} onClick={() => {handleIsOpen(res?._id)}}>
                         <i className="fas fa-pen"></i>
                       </div>
                     </div>
-                  </div>
                 </div>
               </div>
-            ))
-          ) : (
+            )))
+           : (
             <div
               style={{
                 height: "50vh",
