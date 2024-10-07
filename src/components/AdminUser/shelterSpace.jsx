@@ -24,6 +24,7 @@ const ShelterSpace = () => {
     try
     {
         const shelterSpace = await getShelterSpace();
+        console.log(shelterSpace,"shelterSpace")
         setData(shelterSpace)
     } catch(e){
         console.error(e);

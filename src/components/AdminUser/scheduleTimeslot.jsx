@@ -7,73 +7,134 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import "../../css/datePicker.css"
-import { DayPicker } from "react-day-picker";
-import { setHours, setMinutes } from "date-fns";
-import Modal from "react-bootstrap/Modal";
+import "../../css/datePicker.css";
+import { createDoctorSlot } from '../../api/doctorPortalApi';
+import { formatDay, formatTime, isSameDay } from "../../util/getFormatedDateAndTIme";
+import { getScheduledTimeslots, deleteDoctorSlot } from '../../api/doctorPortalApi';
+import "../../../src/css/reactTable.css";
 
 const AvailableSlotForm = () => {
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
-    const [rate, setRate] = useState('');
-    const [description, setDescription] = useState('');
     const [data, setData] = useState(null);
+    const [existingSlots, setExistingSlots] = useState([]);
 
-    const [selectedWeekday, setSelectedWeekday] = useState("");
-  const [timeValue, setTimeValue] = useState("00:00");
-  
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        // setData({ ...data, [name]: value });
-    }; 
+    useEffect(() => {
+        fetchExistingSlots();
+    }, [])
 
-    const handleWeekdayChange = (e) => {
-        setSelectedWeekday(e.target.value);
-      };
-    
-      const handleTimeChange = (e) => {
-        setTimeValue(e.target.value);
-      };
-    
+    const fetchExistingSlots = async () => {
+        try {
+            const fetchedslots = await getScheduledTimeslots();
+            setExistingSlots(fetchedslots.slots);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-    // const descriptionContent = [
-    //     { id: 1, name: "Check-up" },
-    //     { id: 2, name: "Follow-up" },
-    //     { id: 3, name: "Consultation" },
-    // ]
+    const getNext30MinInterval = (date) => {
+        const newDate = new Date(date);
+        const minutes = newDate.getMinutes();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (!startTime || !endTime || !rate || !description) {
-            toast.error('Please fill all fields.');
-            return;
+        // If minutes are already at a 30-minute interval, return the same time
+        if (minutes % 30 === 0) {
+            return newDate;
         }
 
-        const newSlot = {
-            startTime,
-            endTime,
-            rate,
-            description,
-        };
+        // Calculate the next interval
+        const nextInterval = Math.ceil(minutes / 30) * 30;
 
-        console.log('New Available Slot:', newSlot); // You can replace this with your logic to save the slot
+        // If nextInterval is 60, increment the hour and set minutes to 0
+        if (nextInterval === 60) {
+            newDate.setHours(newDate.getHours() + 1);
+            newDate.setMinutes(0);
+        } else {
+            newDate.setMinutes(nextInterval);
+        }
 
-        // Clear the form
-        setStartTime('');
-        setEndTime('');
-        setRate('');
-        setDescription('');
-        toast.success('Available slot added successfully!');
+        return newDate;
+    };
+
+
+    const handleChange = (date, type) => {
+        if (type === 'start_time') {
+            // Reset end_time if start_time changes and add 30 minutes
+            const newStartTime = getNext30MinInterval(date);
+            console.log(newStartTime, "newStart")
+            const newEndTime = new Date(newStartTime);
+            newEndTime.setMinutes(newStartTime.getMinutes() + 30);
+
+            console.log(new Date(date), "date")
+
+            setData(prevData => ({
+                ...prevData,
+                start_time: newStartTime,
+                end_time: newEndTime // Set the new end_time with 30 minutes added
+            }));
+        } else {
+            setData(prevData => ({
+                ...prevData,
+                [type]: date
+            }));
+        }
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await deleteDoctorSlot(id);
+            if (response.deleted == 1) {
+                setExistingSlots(existingSlots.filter(res => res._id != id));
+                toast.success(response.message);
+            }
+            else {
+                toast.error(response.message);
+            }
+        } catch (error) {
+            console.error("Error")
+        }
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!data.start_time || !data.end_time || !data.fee) {
+            toast.error('Please fill all fields.');
+        }
+
+        // Validate if end_time can't be lesser than start_time
+        if (data.start_time > data.end_time) {
+            toast.error('End time cannot be earlier than start time.');
+            return; // Keep previous state, don't update
+        }
+
+        // Validate if start_time and end_time are on the same date
+        if (data.start_time && data.end_time) {
+            const startDate = new Date(data.start_time).toDateString();
+            const endDate = new Date(data.end_time).toDateString();
+
+            if (startDate !== endDate) {
+                toast.error('Start time and End time must be on the same date.');
+                return; // Keep previous state, don't update
+            }
+        }
+
+        try {
+            const slot = await createDoctorSlot(data);
+            if (slot.inserted == 1) {
+                setExistingSlots(prevSlots => [...prevSlots, slot.data]);
+                toast.success(slot.message);
+            }
+            else {
+                toast.error(slot.message);
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
     };
 
     return (
         <div className="wrapper">
             <DashSidebar></DashSidebar>
             <DashNavbar></DashNavbar>
-            
-            <div className="main-panel row align-content-center justify-content-evenly">
-                <div className="row col-4 align-content-center align-items-center justify-content-evenly" style={{ marginTop: "-500px" }}>
+            <div className="main-panel row justify-content-evenly">
+                <div className="row col-4 align-content-center align-items-center justify-content-evenly">
                     <h2>Add Available Slot</h2>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="formDoctorTimeslot">
@@ -81,8 +142,8 @@ const AvailableSlotForm = () => {
                                 <div className="col-6">
                                     <div><Form.Label className="mt-2 me-2 col-12">Start Time: </Form.Label></div>
                                     <DatePicker
-                                        selected={data?.start_time}
-                                        onChange={(date) => handleDateChange(date, 'start_time')}
+                                        selected={data?.start_time ? new Date(data.start_time) : null}
+                                        onChange={(date) => handleChange(date, 'start_time')}
                                         showTimeSelect
                                         timeFormat="HH:mm"
                                         timeIntervals={30}
@@ -90,26 +151,10 @@ const AvailableSlotForm = () => {
                                         className="form-control cw-100"
                                         placeholderText="Select start time"
                                         required
+                                        minDate={new Date()}  // Restrict to current and future dates
+                                        minTime={new Date()}  // Restrict to current and future times
+                                        maxTime={new Date(new Date().setHours(23, 59, 59, 999))}
                                     />
-                                </div>
-                                <div className="col-6 row px-0">
-                                    <div className='col-12 px-5'>
-                                        <Form.Label className="mt-2 ml-5 col-12 px-0">End Time: </Form.Label>
-                                    </div>
-                                    <div className='col-12 px-0' style={{ display: "flex", alignItems: "end", justifyContent: "end" }}>
-                                        <DatePicker
-                                        selected={data?.end_time}
-                                        onChange={(date) => handleDateChange(date, 'end_time')}
-                                        showTimeSelect
-                                        timeFormat="HH:mm"
-                                        timeIntervals={30}
-                                        dateFormat="MMMM d, yyyy h:mm aa"
-                                        className="form-control w-100"
-                                        placeholderText="Select end time"
-                                        required
-                                    />
-                                    
-                                    </div>
                                 </div>
                             </div>
 
@@ -118,27 +163,10 @@ const AvailableSlotForm = () => {
                                 type="number"
                                 placeholder="Enter rate"
                                 value={data?.rate}
-                                onChange={handleChange}
+                                onChange={(e) => handleChange(e.target.value, "fee")}
                                 name="rate"
                                 required
                             />
-
-                            {/* <Form.Label className="mt-2">Description</Form.Label>
-                            <Form.Select
-                                aria-label="Description"
-                                onChange={(e) => handleChange(e)}
-                                value={data?.description}
-                                name="description"
-                            >
-                                {descriptionContent?.map((des) => (
-                                    <option
-                                        key={des?.id}
-                                        value={des?.name}
-                                    >
-                                        {des?.name}
-                                    </option>
-                                ))}
-                            </Form.Select> */}
                         </Form.Group>
 
                         <Button variant="primary" type="submit mt-1">
@@ -146,23 +174,9 @@ const AvailableSlotForm = () => {
                         </Button>
                     </Form>
                 </div>
-
-                <div className="col-3">
-                <select value={selectedWeekday} onChange={handleWeekdayChange} className="form-control">
-                    <option value="">Select a weekday</option>
-                    <option value="Monday">Monday</option>
-                    <option value="Tuesday">Tuesday</option>
-                    <option value="Wednesday">Wednesday</option>
-                    <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                    <option value="Sunday">Sunday</option>
-                </select>
-                <input type="time" value={timeValue} onChange={handleTimeChange} className="form-control mt-3"/>
-                </div>
-
-                <div className="table-responsive col-12">
-                    <table className="table align-items-center mb-0">
+                <div className="table-wrapper">
+                <div className="table-responsive col-12 table-container">
+                    <table className="table align-items-center mb-0 custom-table">
                         <thead className="thead-light">
                             <tr>
                                 <th scope="col">Date</th>
@@ -173,33 +187,33 @@ const AvailableSlotForm = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* {users && users.length > 0 ? (
-                                users.map((res, index) => (
+                            {existingSlots && existingSlots.length > 0 ? (
+                                existingSlots.map((res, index) => (
                                     <tr key={index}>
-                                        <th scope="row">
-                                            {res.name}
-                                        </th>
-                                        <td>{res.email}</td>
-                                        <td>0</td>
-                                        <td>{formatDate(res.created_at)}</td>
-                                        {user != "admin" && 
+                                        <td>
+                                            {formatDay(res?.start_time)}
+                                        </td>
+                                        <td>{formatTime(res?.start_time)}</td>
+                                        <td>{formatTime(res?.end_time)}</td>
+                                        <td>{res?.fee}</td>
                                         <td>
                                             <button
                                                 className="btn btn-danger btn-sm"
-                                                onClick={() => handleDelete(res._id)}
+                                                onClick={() => handleDelete(res?._id)}
                                             >
                                                 Delete
                                             </button>
-                                        </td>}
+                                        </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="4">No users found</td>
+                                    <td colSpan="5">No slots found</td>
                                 </tr>
-                            )} */}
+                            )}
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
         </div>

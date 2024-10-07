@@ -1,164 +1,66 @@
-import React, { useState } from "react";
-import axios from "axios";
-import doctor from "../assets/doctor.jpeg";
+import React, { useState, useEffect } from "react";
 import DashSidebar from "./AdminUser/dashSidebar";
 import DashNavbar from "./AdminUser/dashNavbar";
+import ModalForBookingAppointment from "./AdminUser/addModalForBookAppointment";
 import "../css/vet.css";
+import doc from "../assets/doc.jpg";
+import medical from "../assets/medical.jpg"
+import { getBookedAppointmentsUser } from "../api/doctorPortalApi";
+import { formatDay, formatTime } from "../util/getFormatedDateAndTIme";
 
 const AppointmentForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    contactNumber: "",
-    livestockType: "",
-    expectedDate: "",
-    address: "",
-  });
 
-  const [errors, setErrors] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
+  const [data, setData] = useState([]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: "" });
-  };
+  useEffect(() => {
+    fetchBookedAppointment();
+  }, [isOpen])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let errors = {};
-    if (!formData.name.trim()) {
-      errors.name = "Name is not valid.*";
-    }
-    if (!formData.contactNumber.trim()) {
-      errors.contactNumber = "Contact Number is not valid.*";
-    } else if (!/^\d{11}$/.test(formData.contactNumber)) {
-      errors.contactNumber = "Contact Number must be a valid 11-digit number";
-    }
-    if (!formData.livestockType.trim()) {
-      errors.livestockType = "Livestock Type is not valid.*";
-    }
-    if (!formData.expectedDate) {
-      errors.expectedDate = "Expected Date is not valid.*";
-    } else {
-      const today = new Date();
-      const expectedDate = new Date(formData.expectedDate);
-      if (expectedDate <= today) {
-        errors.expectedDate = "Expected Date should be in the future";
-      }
-    }
-    if (!formData.address.trim()) {
-      errors.address = "Address is not valid.*";
-    }
-
-    if (Object.keys(errors).length > 0) {
-      setErrors(errors);
-      return;
-    }
-
+  const fetchBookedAppointment = async () => {
     try {
-      const result = await axios.post(
-        "/api/appointment/createAppointment",
-        formData
-      );
-      alert("Appointment booked successfully!");
-      setFormData({
-        name: "",
-        contactNumber: "",
-        livestockType: "",
-        expectedDate: "",
-        address: "",
-      });
-    } catch (error) {
-      console.error("Error submitting appointment:", error);
-      alert("Failed to book appointment. Please try again.");
+      const res = await getBookedAppointmentsUser();
+      console.log(res.data)
+      setData(res.data);
+    } catch (err) {
+      console.log(err, "err")
     }
+  }
+
+  const handleIsOpen = (id = null) => {
+    setIsOpen((prev) => !prev);
   };
 
   return (
     <div className="wrapper">
-    <DashSidebar></DashSidebar>
-    <DashNavbar></DashNavbar>
-    <div style={{ marginLeft: "35%", marginTop: "25px" }}>
-      <h2>Book Veterinary Appointment</h2>
-      <div style={{ marginLeft: "5%" }}>
-        <div className="doctor-info">
-          <img src={doctor} alt="Doctor Rashid Mert" className="doctor-image" />
-          <p>Dr. Rashid Mert - Veterinary Surgeon</p>
-        </div>
-        <form onSubmit={handleSubmit} className="appointment-form">
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Your Name"
-            required
-            className="form-input"
-          />
-          {errors.name && <div className="error">{errors.name}</div>}
-          <div style={{ marginBottom: "20px" }} />
-          <input
-            type="text"
-            name="contactNumber"
-            value={formData.contactNumber}
-            onChange={handleChange}
-            placeholder="Contact Number"
-            required
-            className="form-input"
-          />
-          {errors.contactNumber && (
-            <div className="error">{errors.contactNumber}</div>
-          )}
-          <div style={{ marginBottom: "20px" }} />
-          <input
-            type="text"
-            name="livestockType"
-            value={formData.livestockType}
-            onChange={handleChange}
-            placeholder="Livestock Type"
-            required
-            className="form-input"
-          />
-          {errors.livestockType && (
-            <div className="error">{errors.livestockType}</div>
-          )}
-          <div style={{ marginBottom: "20px" }} />
-          <input
-            type="date"
-            name="expectedDate"
-            value={formData.expectedDate}
-            onChange={handleChange}
-            required
-            className="form-input"
-          />
-          {errors.expectedDate && (
-            <div className="error">{errors.expectedDate}</div>
-          )}
-          <div style={{ marginBottom: "20px" }} />
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            placeholder="Address"
-            required
-            className="form-input"
-          />
-          {errors.address && <div className="error">{errors.address}</div>}
-        </form>
-
-        <button
-          type="submit"
-          className="btn btn-primary"
-          style={{
-            backgroundColor: "green",
-            marginTop: "25px",
-            marginBottom: "50px",
-          }}
-          onClick={handleSubmit}
-        >
-          Book Appointment
+      <DashSidebar></DashSidebar>
+      <DashNavbar></DashNavbar>
+      <div className = "row" style={{ marginLeft: "16%", marginTop: "35px" }}>
+        {isOpen && <ModalForBookingAppointment isOpen={isOpen} handleIsOpen={handleIsOpen} />}
+        {data.length > 0 ? (
+           data.map((res, index) => (
+          <div className="col-lg-3 col-md-6 pt-5 wow fadeInUp" data-wow-delay="0.5s">
+            <div className="service-item d-flex h-100">
+              <div className="service-img">
+                <img className="img-fluid" src={doc} alt="" />
+              </div>
+              <div className="service-text p-5 pt-0">
+                <div className="service-icon">
+                  <img className="img-fluid rounded-circle" src={medical} alt="" />
+                </div>
+                <p className="mb-1"><b>Date:</b> {formatDay(res?.start_time)}</p>
+                <p className="mb-1"><b>Time:</b> {formatTime(res?.start_time)} - {formatTime(res?.end_time)}</p>
+                <p className="mb-1"><b>Doctor:</b> {res?.doctor_id?.name}</p>
+                <p className="mb-1"><b>Description:</b> {res?.description}</p>
+              </div>
+            </div>
+          </div>
+           )
+        )) : "No appoointments to show"}
+        <button className="floating-button" onClick={() => { handleIsOpen(null) }}>
+          +
         </button>
       </div>
-    </div>
     </div>
   );
 };
