@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getUserId } from '../service/roles';
 const BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
 const token = localStorage.getItem('token');
 const api = axios.create({
@@ -21,7 +22,7 @@ const api = axios.create({
 
   export const getShelterSpace = async () => {
     try {
-      const response = await api.get('/shelter-space');
+      const response = await api.get(`/shelter-space/all-shelters/${getUserId()}`);
       return response.data;
     }  catch(error) {
       console.error("Error fetching shelters");
