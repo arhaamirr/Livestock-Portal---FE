@@ -50,3 +50,13 @@ const api = axios.create({
       throw error;
     }
   };
+
+  export const deleteShelterSpace = async (id) => {
+    try {
+      const response = await api.delete(`/shelter-space/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting shelter space:', error);
+      throw error;
+    }
+  };

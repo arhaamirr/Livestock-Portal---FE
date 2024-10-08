@@ -2,64 +2,154 @@ import { useEffect, useState } from "react";
 import DashSidebar from "./dashSidebar";
 import DashNavbar from "./dashNavbar";
 import "../../../src/css/addButton.css";
-import herhub from "../../assets/herhub2.png"
+import herhub from "../../assets/herhub2.png";
 import AddShelterSpaceModal from "./addShelterSpaceModal";
-import { getShelterSpace } from "../../api/shelterSpaceApi";
-
+import { getShelterSpace, deleteShelterSpace } from "../../api/shelterSpaceApi";
+import { Oval } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 const ShelterSpace = () => {
-
   const [isOpen, setIsOpen] = useState(false);
   const [resourceId, setResourceId] = useState(null);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleIsOpen = (id = null) => {
     setResourceId(id);
     setIsOpen((prev) => !prev);
   };
-  useEffect(() => {
-    fetchSelterSpace();
-  }, [isOpen])
 
-  const fetchSelterSpace = async () => {
+  useEffect(() => {
+    fetchShelterSpace();
+  }, [isOpen]);
+
+  const fetchShelterSpace = async () => {
     try {
       const shelterSpace = await getShelterSpace();
-      console.log(shelterSpace, "shelterSpace")
-      setData(shelterSpace)
+      setData(shelterSpace);
     } catch (e) {
       console.error(e);
+    } finally {
+      setLoading(false); // End loading
     }
-  }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this item")) {
+      try {
+        const response = await deleteShelterSpace(id);
+        if (response.deleted == 1) {
+          toast.success(response.message);
+          setData(data.filter(res => res._id !== id));
+        } else {
+          toast.error("Failed to delete item");
+        }
+      } catch (error) {
+        console.error("Error deleting item:", error);
+        toast.error("Error occurred while deleting item");
+      }
+    }
+  };
 
   return (
     <div className="wrapper">
-      <DashSidebar></DashSidebar>
-      <DashNavbar></DashNavbar>
-      {isOpen && <AddShelterSpaceModal isOpen={isOpen} handleIsOpen={handleIsOpen} resourceId={resourceId} />}
+      <DashSidebar />
+      <DashNavbar />
+
+      {isOpen && (
+        <AddShelterSpaceModal
+          isOpen={isOpen}
+          handleIsOpen={handleIsOpen}
+          resourceId={resourceId}
+        />
+      )}
+
       <div className="main-panel mt-5">
         <div className="row align-content-center align-items-center justify-content-evenly">
-          {data && data.length > 0 ? (
+          {loading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "50vh",
+              }}
+            >
+              <Oval
+                height={60}
+                width={190}
+                color="#5B8C51"
+                ariaLabel="oval-loading"
+                secondaryColor="#EDDD5E"
+                strokeWidth={6}
+                strokeWidthSecondary={6}
+              />
+            </div>
+          ) : data && data.length > 0 ? (
             data?.map((res) => (
-
-              <div className="col-lg-3 col-md-6 pt-5 wow fadeInUp" data-wow-delay="0.5s">
+              <div
+                className="col-lg-3 col-md-6 pt-5 wow fadeInUp"
+                data-wow-delay="0.5s"
+                key={res._id}
+              >
                 <div className="service-item d-flex h-100">
                   <div className="service-img">
                     <img className="img-fluid" src={herhub} alt="" />
                   </div>
-                  <div className="service-text p-5 pt-0">
-                    <p className="mb-1 mt-5"><b>LiveStock:</b> {res?.livestock_id?.type}</p>
-                    <p className="mb-1"><b>Size in kg/lb:</b> {res?.size_in_kg}</p>
-                    <p className="mb-1"><b>Ventilation:</b> {res?.ventilation}</p>
-                    <p className="mb-1"><b>Animal Quantity:</b> {res?.animal_quantity}</p>
-                    <p className="mb-1"><b>Available Shelter:</b> {res?.available_shelter}</p>
-                    <p className="mb-1"><b>Shelter Type:</b> {res?.shelter_type}</p>
-                    <p className="mb-1"><b>Resting Area:</b> {res?.resting_area}</p>
-                  </div>
-                  <div className="col-icon">
-                      <div className="icon-primary" style={{position:"relative", top:"20px", bottom:"20px", left:"55px", color:"green", cursor:"pointer"}} onClick={() => {handleIsOpen(res?._id)}}>
-                        <i className="fas fa-pen"></i>
+                  <div style={{ display: "flex", flexGrow: 2, justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div className="service-text p-5 pt-0">
+                      <p className="mb-1 mt-5">
+                        <b>LiveStock:</b> {res?.livestock_id?.type}
+                      </p>
+                      <p className="mb-1">
+                        <b>Size in kg/lb:</b> {res?.size_in_kg}
+                      </p>
+                      <p className="mb-1">
+                        <b>Ventilation:</b> {res?.ventilation}
+                      </p>
+                      <p className="mb-1">
+                        <b>Animal Quantity:</b> {res?.animal_quantity}
+                      </p>
+                      <p className="mb-1">
+                        <b>Available Shelter:</b> {res?.available_shelter}
+                      </p>
+                      <p className="mb-1">
+                        <b>Shelter Type:</b> {res?.shelter_type}
+                      </p>
+                      <p className="mb-1">
+                        <b>Resting Area:</b> {res?.resting_area}
+                      </p>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
+                      <div className="col-icon">
+                        <div
+                          className="icon-primary"
+                          style={{
+                            marginRight: "50px",
+                            marginTop: "40px",
+                            cursor: "pointer"
+                          }}
+                          onClick={() => {
+                            handleIsOpen(res?._id);
+                          }}
+                        >
+                          <i className="fas fa-pen" style={{ color: "#EDDD5E" }}></i>
+                        </div>
+                      </div>
+                      <div className="col-icon">
+                        <div
+                          className="icon-danger"
+                          style={{
+                            marginTop: "165px",
+                            cursor: "pointer"
+                          }}
+                          onClick={() => handleDelete(res?._id)}
+                        >
+                          <i className="fas fa-trash" style={{ color: "#BE2B44" }}></i>
+                        </div>
                       </div>
                     </div>
+                  </div>
                 </div>
               </div>
             ))
@@ -78,7 +168,12 @@ const ShelterSpace = () => {
           )}
         </div>
 
-        <button className="floating-button" onClick={() => { handleIsOpen(null) }}>
+        <button
+          className="floating-button"
+          onClick={() => {
+            handleIsOpen(null);
+          }}
+        >
           +
         </button>
       </div>

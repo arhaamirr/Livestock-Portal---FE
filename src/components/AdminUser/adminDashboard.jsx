@@ -119,7 +119,7 @@ return (
                                     <tr>
                                         <th scope="col">Name</th>
                                         <th scope="col">Email</th>
-                                        <th scope="col">Appointments Booked</th>
+                                        {user == "user" &&<th scope="col">Appointments Booked</th>}
                                         <th scope="col">Joined On</th>
                                         {user != "admin" && <th scope="col">Action</th>}
                                     </tr>
@@ -132,7 +132,7 @@ return (
                                                     {res.name}
                                                 </th>
                                                 <td>{res.email}</td>
-                                                <td>0</td>
+                                                {user == "user" && <td>0</td>}
                                                 <td>{formatDate(res.created_at)}</td>
                                                 {user != "admin" && 
                                                 <td>

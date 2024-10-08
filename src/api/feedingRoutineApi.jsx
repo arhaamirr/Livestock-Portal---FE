@@ -23,7 +23,7 @@ export const getFeedingRoutines = async () => {
 };
 
 export const getResources = async () => {
-  const id = "a3213123"
+  const id = getUserId();
   try {
     const response = await api.get(`/resource/${id}`);
     return response.data;
@@ -120,3 +120,13 @@ export const getAllUsersCount = async () => {
     console.log("Error fetching all users count")
   }
 }
+
+export const deleteFeedingRoutine = async (id) => {
+  try {
+    const response = await api.delete(`/feeding-routines/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting feeding routine:', error);
+    throw error;
+  }
+};
