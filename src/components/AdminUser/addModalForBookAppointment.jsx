@@ -121,7 +121,7 @@ function ModalForBookingAppointment({ handleIsOpen, isOpen}) {
                                     </div>
 
                                     <div className="col-12">
-                                        <Form.Label className="mt-3">Available Doctors</Form.Label>
+                                        <Form.Label className="mt-3">Description</Form.Label>
                                         <Form.Select
                                             aria-label="Default select example"
                                             onChange={(e) => handleChange(e.target.value, "description")}

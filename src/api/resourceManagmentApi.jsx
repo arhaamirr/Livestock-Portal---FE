@@ -38,3 +38,13 @@ export const getResourceById = async (id) => {
       throw error;
     }
   };
+
+  export const deleteResource = async (id) => {
+    try {
+      const response = await api.delete(`/resource/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting resource:', error);
+      throw error;
+    }
+  };
