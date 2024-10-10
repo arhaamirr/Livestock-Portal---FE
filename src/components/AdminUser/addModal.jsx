@@ -5,24 +5,29 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { getShelters } from "../../api/feedingRoutineApi";
 import { createResourceManagment, editResourceManagment, getResourceById } from "../../api/resourceManagmentApi";
+import { getFeedingRoutines } from "../../api/feedingRoutineApi";
 /* eslint-disable */
 function AddModal({ handleIsOpen, isOpen, resourceId }) {
   const [data, setData] = useState({
     land_id: null,
-    feed: null,
+    feed_id: null,
     labor: null,
+    animal_price:null
   });
 
   const [shelters, setShelters] = useState([]);
+  const [feedingRoutine, setFeedingRoutine] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
 
   const getResourceAgainstId = async () =>{
     try{
       const resp = await getResourceById(resourceId);
+      console.log(resp,"response against Id")
       setData({
         land_id: resp?.land_id?._id ,
-        feed: resp?.feed ,
-        labor: resp?.labor ,
+        feed_id: resp?.feed_id?._id ,
+        labor: resp?.labor,
+        animal_price : resp?.animal_price
       });
     }catch(err){
       console.error(err);
@@ -32,13 +37,27 @@ function AddModal({ handleIsOpen, isOpen, resourceId }) {
   useEffect(()=>{
     if(resourceId){
       setIsEdit(true);
+      getFeedingRoutine();
       initializeShelters();
       getResourceAgainstId();
     }else{
       setIsEdit(false);
       initializeShelters();
+      getFeedingRoutine();
     }
   },[])
+
+
+  const getFeedingRoutine = async () => {
+    try {
+      const resp = await getFeedingRoutines();
+      console.log(resp,"response")
+      setFeedingRoutine(resp);
+    } catch(error) {
+      console.error(error);
+      toast.error("Something went wrong !!");
+    }
+  }
 
   const initializeShelters = async () => {
     try {
@@ -60,6 +79,7 @@ function AddModal({ handleIsOpen, isOpen, resourceId }) {
 
   const handleSubmitData = async () => {
     data.user_id='66f40685940969f6344a0ede';
+    console.log(data,"dataaaaaaa")
     try {
       if( isEdit && resourceId){
         const res = await editResourceManagment(resourceId, data);
@@ -106,7 +126,7 @@ function AddModal({ handleIsOpen, isOpen, resourceId }) {
                 value={data.land_id}
                 name="land_id"
               >
-                <option value="" disabled>
+                <option value="" selected>
                     Choose Land
                 </option>
                 {shelters?.map((sh) => (
@@ -114,13 +134,19 @@ function AddModal({ handleIsOpen, isOpen, resourceId }) {
                 ))}
               </Form.Select>
               <Form.Label className="mt-1">Feed</Form.Label>
-              <Form.Control
-                type="text"
-                autoFocus
+              <Form.Select
+                aria-label="Default select example"
                 onChange={(e) => handleChange(e)}
-                value={data.feed}
-                name="feed"
-              />
+                value={data.feed_id}
+                name="feed_id"
+              >
+                <option value="" selected>
+                    Choose Feed
+                </option>
+                {feedingRoutine?.map((sh) => (
+                    <option key={`${sh?._id} + ${sh?.feed_type}`} value={sh?._id}>{sh?.feed_type}</option>
+                ))}
+              </Form.Select>
               <Form.Label className="mt-1">Labor</Form.Label>
               <Form.Control
                 type="text"
@@ -128,6 +154,15 @@ function AddModal({ handleIsOpen, isOpen, resourceId }) {
                 onChange={(e) => handleChange(e)}
                 value={data.labor}
                 name="labor"
+              />
+
+              <Form.Label className="mt-1">Animal Price</Form.Label>
+              <Form.Control
+                type="text"
+                autoFocus
+                onChange={(e) => handleChange(e)}
+                value={data.animal_price}
+                name="animal_price"
               />
             </Form.Group>
           </Form>
