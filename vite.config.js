@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export default defineConfig({
+  build: { sourcemap: false },
   plugins: [react()],
   server: {
     proxy: {

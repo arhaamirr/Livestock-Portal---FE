@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { getShelters } from "../../api/feedingRoutineApi";
 import { createResourceManagment, editResourceManagment, getResourceById } from "../../api/resourceManagmentApi";
 import { getFeedingRoutines } from "../../api/feedingRoutineApi";
+import { getUserId } from "../../service/roles";
 /* eslint-disable */
 function AddModal({ handleIsOpen, isOpen, resourceId }) {
   const [data, setData] = useState({
@@ -78,8 +79,7 @@ function AddModal({ handleIsOpen, isOpen, resourceId }) {
   };
 
   const handleSubmitData = async () => {
-    data.user_id='66f40685940969f6344a0ede';
-    console.log(data,"dataaaaaaa")
+    data.user_id= getUserId();
     try {
       if( isEdit && resourceId){
         const res = await editResourceManagment(resourceId, data);

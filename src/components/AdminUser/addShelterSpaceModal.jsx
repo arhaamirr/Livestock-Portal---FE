@@ -56,8 +56,8 @@ function AddShelterSpaceModal({ handleIsOpen, isOpen, resourceId }) {
     } catch (err) {
       console.error(err);
     }
-
   }
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prevData) => ({

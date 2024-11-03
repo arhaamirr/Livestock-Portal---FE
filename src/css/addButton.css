@@ -19,3 +19,9 @@
     background-color: #EDDD5E;
     transition: 1s;
   }
+
+  .carousel-img {
+    max-height: 400px; /* Adjust this value as needed */
+    width: 100%;
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+  }

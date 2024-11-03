@@ -4,7 +4,7 @@ import DashNavbar from "./dashNavbar";
 import AddModal from "./addModal";
 import "../../../src/css/addButton.css";
 import { getResources } from "../../api/feedingRoutineApi";
-import { Oval } from "react-loader-spinner"; // Import the loader
+import { Oval } from "react-loader-spinner"; 
 import herhub from "../../assets/herhub2.png";
 import { toast } from "react-toastify";
 import { deleteResource } from "../../api/resourceManagmentApi";
@@ -32,7 +32,7 @@ const ResourceManagement = () => {
     } catch (e) {
       console.error(e);
     } finally {
-      setLoading(false); // Stop loading after fetching
+      setLoading(false);
     }
   };
 
@@ -60,7 +60,7 @@ const ResourceManagement = () => {
       {isOpen && <AddModal isOpen={isOpen} handleIsOpen={handleIsOpen} resourceId={resourceId} />}
       <div className="main-panel mt-5 mb-5">
         <div className="row align-content-center align-items-center justify-content-evenly">
-          {loading ? ( // Show loader when loading is true
+          {loading ? (
             <div className="d-flex justify-content-center align-items-center" style={{ height: "50vh", width: "100%" }}>
               <Oval
                 height={60}

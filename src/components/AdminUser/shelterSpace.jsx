@@ -30,7 +30,7 @@ const ShelterSpace = () => {
     } catch (e) {
       console.error(e);
     } finally {
-      setLoading(false); // End loading
+      setLoading(false);
     }
   };
 
@@ -88,7 +88,7 @@ const ShelterSpace = () => {
           ) : data && data.length > 0 ? (
             data?.map((res) => (
               <div
-                className="col-lg-3 col-md-6 pt-5 wow fadeInUp"
+                className="col-lg-4 col-md-6 pt-5 wow fadeInUp"
                 data-wow-delay="0.5s"
                 key={res._id}
               >
@@ -106,9 +106,6 @@ const ShelterSpace = () => {
                       </p>
                       <p className="mb-1">
                         <b>Ventilation:</b> {res?.ventilation}
-                      </p>
-                      <p className="mb-1">
-                        <b>Animal Quantity:</b> {res?.animal_quantity}
                       </p>
                       <p className="mb-1">
                         <b>Available Shelter:</b> {res?.available_shelter}
