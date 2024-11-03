@@ -17,9 +17,10 @@ const DashSidebar = () => {
 
     const adminNavContent = [
         { id: 1, name: "Dashboard", path: "/dashboard", svg: dashboard},
-        { id: 2, name: "Resource Management", path: "/resource-management", svg: land},
+        { id: 2, name: "Add Livestock", path: "/livestock", svg: land},
         { id: 3, name: "Feeding Routine", path: "/feeding", svg: feeding },
-        { id: 4, name: "Shelter and Space", path: "/shelter-space", svg: shelter }
+        { id: 4, name: "Resource Management", path: "/resource-management", svg: land},
+        { id: 5, name: "Shelter and Space", path: "/shelter-space", svg: shelter }
     ];
 
     const userNavContent = [

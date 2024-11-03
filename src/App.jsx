@@ -21,6 +21,10 @@ import ForgetPassword from './components/forgetPassword';
 import AvailableSlotForm from './components/AdminUser/scheduleTimeslot';
 import DoctorGuard from './guards/DoctorGuard';
 import ShelterSpace from './components/AdminUser/shelterSpace';
+import PurchasedItems from './components/AdminUser/purchasedItems';
+import Cart from './components/AdminUser/addToCart';
+import ListingPage from './components/AdminUser/listingPage';
+import Livestock from './components/AdminUser/livestock';
 
 const App = () => {
   return (
@@ -35,15 +39,18 @@ const App = () => {
             <Route path="/forget-password/:email" element={<ForgetPassword />} />
             <Route className="col-lg-12" path="/dashboard" element={<AuthGuard><Dashboard /></AuthGuard>} />
             <Route path="/profile" element={<AuthGuard><Profile/></AuthGuard>}></Route>
+            <Route path="/livestock" element={<AdminGuard><Livestock /></AdminGuard>} />
             <Route path="/resource-management" element={<AdminGuard><ResourceManagement /></AdminGuard>} />
             <Route path="/feeding" element={<AdminGuard><FeedingRoutine /></AdminGuard>} />
             <Route path="/vet-appointment" element={<UserGuard><AppointmentForm /></UserGuard>} />
+            <Route path="/orders" element={<UserGuard><PurchasedItems /></UserGuard>} />
+            <Route path="/cart" element={<UserGuard><Cart /></UserGuard>} />
+            <Route path="/shop-product" element={<UserGuard><ListingPage /></UserGuard>} />
             <Route path="/timeslot" element={<DoctorGuard><AvailableSlotForm /></DoctorGuard>} />
+            
             {/* <Route path="/timeslot-recursive" element={<DoctorGuard><AvailableSlotForm /></DoctorGuard>} /> */}
 
             <Route path="/shelter-space" element={<ShelterSpace />} />
-
-            
             
             {/* <Route path="/livestock" element={<LivestockPage />} /> */}
             <Route path="*" element={<Error/>}></Route>

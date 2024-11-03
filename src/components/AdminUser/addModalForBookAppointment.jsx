@@ -91,11 +91,11 @@ function ModalForBookingAppointment({ handleIsOpen, isOpen}) {
                                             timeFormat="HH:mm"
                                             timeIntervals={30}
                                             dateFormat="MMMM d, yyyy h:mm aa"
-                                            className="form-control col-12"
+                                            className="form-control-2 col-12"
                                             placeholderText="Select start time"
                                             required
                                             minDate={new Date()}
-                                            minTime={start_time && isSameDay(start_time, new Date()) ? new Date() : new Date().setHours(0, 0, 0, 0)} // Set to now if today, or start of the day otherwise
+                                            minTime={start_time && isSameDay(start_time, new Date()) ? new Date() : new Date().setHours(0, 0, 0, 0)}
                                             maxTime={new Date().setHours(23, 59)} 
                                         />
                                     </div>

@@ -4,10 +4,11 @@ import DashNavbar from "./dashNavbar";
 import AddModal from "./addModal";
 import "../../../src/css/addButton.css";
 import { getResources } from "../../api/feedingRoutineApi";
-import { Oval } from "react-loader-spinner"; // Import the loader
+import { Oval } from "react-loader-spinner"; 
 import herhub from "../../assets/herhub2.png";
 import { toast } from "react-toastify";
 import { deleteResource } from "../../api/resourceManagmentApi";
+import { formatDate } from "../../util/getFormatedDateAndTIme";
 
 const ResourceManagement = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +32,7 @@ const ResourceManagement = () => {
     } catch (e) {
       console.error(e);
     } finally {
-      setLoading(false); // Stop loading after fetching
+      setLoading(false);
     }
   };
 
@@ -59,7 +60,7 @@ const ResourceManagement = () => {
       {isOpen && <AddModal isOpen={isOpen} handleIsOpen={handleIsOpen} resourceId={resourceId} />}
       <div className="main-panel mt-5 mb-5">
         <div className="row align-content-center align-items-center justify-content-evenly">
-          {loading ? ( // Show loader when loading is true
+          {loading ? (
             <div className="d-flex justify-content-center align-items-center" style={{ height: "50vh", width: "100%" }}>
               <Oval
                 height={60}
@@ -80,10 +81,14 @@ const ResourceManagement = () => {
                   </div>
                   <div style={{ display: "flex", flexGrow: 2, justifyContent: "space-between", alignItems: "flex-start" }}>
                     <div className="service-text p-5 pt-0">
-                      <p className="mb-1 mt-5"><b>Land Name:</b> {res?.land_id?.name}</p>
+                    <p className="mb-1"><b>Animal-Type :</b> {res?.feed_id?.livestock_id?.type}</p>
+                      <p className="mb-1 "><b>Land Name:</b> {res?.land_id?.name}</p>
                       <p className="mb-1"><b>Location:</b> {res?.land_id?.location}</p>
                       <p className="mb-1"><b>Capacity:</b> {res?.land_id?.capacity}</p>
-                      <p className="mb-1"><b>Feed:</b> {res?.feed}</p>
+                      <p className="mb-1"><b>Feed-Type:</b> {res?.feed_id?.feed_type}</p>
+                      <p className="mb-1"><b>Feed-Time:</b> {formatDate(res?.feed_id?.feeding_time)}</p>
+                      <p className="mb-1"><b>Animal Price:</b> {res?.animal_price}</p>
+                      
                       <p className="mb-1"><b>Labor:</b> {res?.labor}</p>
                     </div>
                   </div>

@@ -132,7 +132,7 @@ return (
                                                     {res.name}
                                                 </th>
                                                 <td>{res.email}</td>
-                                                {user == "user" && <td>0</td>}
+                                                {user == "user" && <td>{res.booked}</td>}
                                                 <td>{formatDate(res.created_at)}</td>
                                                 {user != "admin" && 
                                                 <td>
@@ -156,8 +156,7 @@ return (
                     </div>
                 </div>
             </div>
-        </div>
-        
+        </div> 
     </>
 )
 }

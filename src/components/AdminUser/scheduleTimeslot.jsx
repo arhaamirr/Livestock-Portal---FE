@@ -9,7 +9,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import "../../css/datePicker.css";
 import { createDoctorSlot } from '../../api/doctorPortalApi';
-import { formatDay, formatTime, isSameDay } from "../../util/getFormatedDateAndTIme";
+import { formatDay, formatTime } from "../../util/getFormatedDateAndTIme";
 import { getScheduledTimeslots, deleteDoctorSlot } from '../../api/doctorPortalApi';
 import "../../../src/css/reactTable.css";
 
@@ -138,9 +138,9 @@ const AvailableSlotForm = () => {
                     <h2>Add Available Slot</h2>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="formDoctorTimeslot">
-                            <div className="row">
-                                <div className="col-6">
-                                    <div><Form.Label className="mt-2 me-2 col-12">Start Time: </Form.Label></div>
+                            <div className="row col-12">
+                                <div className="col-12 mr-5">
+                                    <Form.Label className="mt-2 me-2 col-12">Start Time: </Form.Label>
                                     <DatePicker
                                         selected={data?.start_time ? new Date(data.start_time) : null}
                                         onChange={(date) => handleChange(date, 'start_time')}
@@ -148,16 +148,16 @@ const AvailableSlotForm = () => {
                                         timeFormat="HH:mm"
                                         timeIntervals={30}
                                         dateFormat="MMMM d, yyyy h:mm aa"
-                                        className="form-control cw-100"
+                                        className="form-control-2 col-12"
                                         placeholderText="Select start time"
                                         required
                                         minDate={new Date()}  // Restrict to current and future dates
                                         minTime={new Date()}  // Restrict to current and future times
                                         maxTime={new Date(new Date().setHours(23, 59, 59, 999))}
-                                    />
+                                        />
                                 </div>
                             </div>
-
+                            <div class="px-0 mx-0">
                             <Form.Label className="mt-3">Fee (Pkr)</Form.Label>
                             <Form.Control
                                 type="number"
@@ -166,7 +166,9 @@ const AvailableSlotForm = () => {
                                 onChange={(e) => handleChange(e.target.value, "fee")}
                                 name="rate"
                                 required
+                                className="form-control-2"
                             />
+                            </div>
                         </Form.Group>
 
                         <Button variant="primary" type="submit mt-1">

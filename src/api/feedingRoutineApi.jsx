@@ -34,6 +34,7 @@ export const getResources = async () => {
 }
 
 export const createFeedingRoutine = async (feedingRoutine) => {
+  feedingRoutine["user_id"] = getUserId();
   try {
     const response = await api.post('/feeding-routines', feedingRoutine);
     return response.data;
@@ -43,8 +44,8 @@ export const createFeedingRoutine = async (feedingRoutine) => {
   }
 };
 
-export const editFeedingRoutine = async (feedingRoutineId,feedingRoutine) => {
-  data["user_id"] = getUserId();
+export const editFeedingRoutine = async (feedingRoutineId, feedingRoutine) => {
+  feedingRoutine["user_id"] = getUserId();
   try {
     const response = await api.put(`/feeding-routines/${feedingRoutineId}`, feedingRoutine);
     return response.data;
@@ -97,7 +98,7 @@ export const getShelters = async () => {
 export const getAllUsers = async (role) => {
   try {
     const response = await api.get(`/users/${role}`);
-    return response.data.user;
+    return role == 'user' ? response.data.usersWithBookingCount : response.data.users;
   } catch(error) {
     console.log("Error fetching all users");
   }
